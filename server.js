@@ -91,6 +91,7 @@ app.post("/rooms",requireLogin , async (req, res) => {
     roomNumber: roomNumber,
     roomType: roomType,
     capacity: capacity,
+    booking: false,
     openDays: openDays,
     availableTime: availableTime,
   });
@@ -110,11 +111,20 @@ app.post('/bookroom',requireLogin , async(req, res) => {
    let data =[];
 
       data = await Room.find({ roomType: selectedRoomType });
-      console.log(data.length);
       const rooms= data.length;
       res.render('rooms', { rooms: data,roomLength:rooms ,roomType:selectedRoomType});
 
     
+});
+app.post('/booking', async(req, res) => {
+  const roomId = req.body.selectedRoom;
+  console.log("Selected Room Number:", roomId);
+  // Room.update({ roomNumber: selectedRoom }, { $set: { booking: true } });
+  const updatedRoom = await Room.findOneAndUpdate(
+    { _id: roomId },
+    { $set: { booking: true }})
+
+  res.send("Room Booked Successfully");
 });
 
 app.get('/logout', (req, res) => {
@@ -126,3 +136,5 @@ app.get('/logout', (req, res) => {
     res.redirect('/'); // Redirect to the login page after logout
   });
 });
+
+

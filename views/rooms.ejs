@@ -9,14 +9,16 @@
   <div id="availableRoom">
     <form action="/bookroom" method="post">
       <h1>Available Rooms of Type <%= roomType %></h1>
-
-      <% if (roomLength === 0) { %>
+    
+      <% if (roomLength === 0 ) { %>
       <p>No rooms available of the selected type.</p>
       <% } else { %>
       <ul>
-        <% rooms.forEach(function(room) { %>
+        <% rooms.forEach(function(room) {
+        if(room.booking==false) { %>
         <li><%= room.roomNumber %></li>
-        <% }); %>
+        <button type="submit" formaction="/booking" name="selectedRoom" value="<%= room._id %>" class="btn btn-primary">Book</button>
+        <% }}); %>
       </ul>
       <% } %>
 

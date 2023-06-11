@@ -26,6 +26,11 @@ const roomSchema = new mongoose.Schema({
     type: String,
     // required: true
   },
+  booking: {
+    type: Boolean,
+    default: false,
+  },
+
   facilities: [{
     type: String,
   }],
