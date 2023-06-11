@@ -1,0 +1,79 @@
+<button id="btn">ADD A ROOM</button>
+<button onclick="window.location.href='/book';" id="btnbook">BOOK ROOM</button>
+
+<div id="form" style="display: none">
+  <h1>Add Room</h1>
+  <form id="form" action="/rooms" method="POST">
+    <label for="roomName">Room Name:</label>
+    <input type="text" id="roomName" name="roomName" required /><br /><br />
+
+    <label for="roomNumber">Room Number:</label>
+    <input
+      type="text"
+      id="roomNumber"
+      name="roomNumber"
+      required
+    /><br /><br />
+
+    <label for="roomType">Room Type:</label>
+    <select id="roomType" name="roomType" required>
+      <option value="auditorium">Auditorium</option>
+      <option value="conference room">Conference Room</option>
+      <option value="lab">Lab</option>
+      <option value="classroom">Classroom</option>
+      <option value="hallroom">Hallroom</option></select
+    ><br /><br />
+
+    <label for="capacity">Capacity:</label>
+    <input type="number" id="capacity"  name="capacity" required/><br /><br />
+
+    <label for="facilities">Facilities:</label>
+    <input type="text" id="facilities" name="facilities" /><br /><br />
+    <label for="openDays">Open Days:</label>
+    <select id="openDays" name="openDays[]" multiple required>
+      <option value="monday">Monday</option>
+      <option value="tuesday">Tuesday</option>
+      <option value="wednesday">Wednesday</option>
+      <option value="thursday">Thursday</option>
+      <option value="friday">Friday</option>
+      <option value="saturday">Saturday</option>
+      <option value="sunday">Sunday</option></select
+    ><br /><br />
+    <input type="week" name="week" id="weeks" onchange="handler(event);" />
+
+    <div class="weeks">
+      <-- here you can display the selected weeks --!>
+    </div>
+
+    <label for="availableTime">Available Time:</label>
+    <input
+      type="time"
+      id="availableTime"
+      name="availableTime"
+      required
+    /><br /><br />
+
+    <input type="submit" value="Add Room" />
+  </form>
+</div>
+
+ <script>
+      const btn = document.getElementById("btn");
+
+      btn.addEventListener("click", () => {
+        const form = document.getElementById("form");
+
+        if (form.style.display === "none") {
+          // 👇️ this SHOWS the form
+          form.style.display = "block";
+        } else {
+          // 👇️ this HIDES the form
+          form.style.display = "none";
+        }
+      });
+
+      var weeks = []; //here store the weeks selected by the user;
+      function handler(e) {
+        weeks.push(e.target.value);
+      }
+    </script>

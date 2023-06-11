@@ -1,0 +1,35 @@
+<style>
+  #availableRoom {
+    display: none;
+  }
+</style>
+<body>
+    <button id="searchButton">Search</button>
+
+  <div id="availableRoom">
+    <form action="/bookroom" method="post">
+      <h1>Available Rooms of Type <%= roomType %></h1>
+
+      <% if (roomLength === 0) { %>
+      <p>No rooms available of the selected type.</p>
+      <% } else { %>
+      <ul>
+        <% rooms.forEach(function(room) { %>
+        <li><%= room.roomNumber %></li>
+        <% }); %>
+      </ul>
+      <% } %>
+
+      <a href="/">Go back</a>
+    </form>
+  </div>
+
+  <script>
+    const searchButton = document.getElementById("searchButton");
+    const availableRoom = document.getElementById("availableRoom");
+
+    searchButton.addEventListener("click", function () {
+      availableRoom.style.display = "block";
+    });
+  </script>
+</body>
