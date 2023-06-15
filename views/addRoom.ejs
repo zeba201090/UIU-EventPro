@@ -1,3 +1,8 @@
+
+<head>   <base href="/">  
+  <link rel="stylesheet" type="text/css" href="/select.css">
+
+</head>
 <button id="btn">ADD A ROOM</button>
 <button onclick="window.location.href='/book';" id="btnbook">BOOK ROOM</button>
 
@@ -20,7 +25,7 @@
       <option value="auditorium">Auditorium</option>
       <option value="conference room">Conference Room</option>
       <option value="lab">Lab</option>
-      <option value="classroom">Classroom</option>
+      <option value= classroom" >Classroom</option>
       <option value="hallroom">Hallroom</option></select
     ><br /><br />
 
@@ -29,33 +34,92 @@
 
     <label for="facilities">Facilities:</label>
     <input type="text" id="facilities" name="facilities" /><br /><br />
-    <label for="openDays">Open Days:</label>
-    <select id="openDays" name="openDays[]" multiple required>
-      <option value="monday">Monday</option>
-      <option value="tuesday">Tuesday</option>
-      <option value="wednesday">Wednesday</option>
-      <option value="thursday">Thursday</option>
-      <option value="friday">Friday</option>
-      <option value="saturday">Saturday</option>
-      <option value="sunday">Sunday</option></select
-    ><br /><br />
-    <input type="week" name="week" id="weeks" onchange="handler(event);" />
+   
+    <label for="availableDays">Available Days:</label>
+     
+    <div>
+        Saturday: <input type="checkbox" id="day" name="checkbox" value="Saturday">
+        <br>
+        Sunday: <input type="checkbox" name="checkbox" v id="day" value="Sunday">
+        <br>
+        
+        Monday: <input type="checkbox" name="checkbox"  id="day" value="Monday"> 
+        <br>
+        Tuesday: <input type="checkbox" id="day" name="checkbox"  value="Tuesday">
+        <br>
+        Wednesday: <input type="checkbox" id="day" name="checkbox" value="Wednesday"> >
+        <br>
+        Thursday: <input type="checkbox" id="day"  name="checkbox" value="Thursday">
+        <br>
+        Friday: <input type="checkbox" id="day" name="checkbox"  value="Friday"> 
+        <br>
+        
+        </div>
+        
+        
 
-    <div class="weeks">
-      <-- here you can display the selected weeks --!>
-    </div>
+        <input type="hidden" name="myArray" id="myArrayInput">
+        <select value = timeSlots id="timeSlot" onchange="generateTimeSlots()" name="timeSlot">
+          
+        
+          <option value="">Select a Time Slot</option>
+          <option value="8:30 AM - 5:00 PM">8:30 AM - 5:00 PM</option>
+          <option value="8:30 AM - 8:00 PM">8:30 AM - 8:00 PM</option>
+          <option value="10:00 AM - 5:00 PM">10:00 AM - 5:00 PM</option>
+          <option value="10:00 PM - 8:00 PM">10:00 PM - 8:00 PM</option>
+          <option value="8:30 AM - 2:00 PM">8:30 PM - 2:00 PM</option>
+        </select>
+        
+        <p id="timeSlots" name="timeSlot"> hiiiiiiii </p>   
+        <input type="submit" value="Submit" />
+        
 
-    <label for="availableTime">Available Time:</label>
-    <input
-      type="time"
-      id="availableTime"
-      name="availableTime"
-      required
-    /><br /><br />
+    
+
 
     <input type="submit" value="Add Room" />
   </form>
 </div>
+<br>
+
+<script>
+  function generateTimeSlots() {
+    var timeSlotElement = document.getElementById('timeSlot');
+    const selectedOption = timeSlotElement.options[timeSlotElement.selectedIndex].value;
+    const st = parseInt(selectedOption.substring(0, 2));
+    const et = parseInt(selectedOption.substring(10, 13));
+    const startTime= st;
+   
+   
+
+    const endTime = et+12;
+    const interval = 1; 
+
+
+    console.log(startTime);
+    console.log(et);
+
+
+    let timeSlots = [];
+    let currentHour = startTime;
+
+
+   
+    while (currentHour<endTime) {
+      timeSlot = `${currentHour}:00  - ${(currentHour + interval)}:00 `;
+      timeSlots.push(timeSlot);
+      currentHour += interval;
+    } 
+      
+
+    timeSlotElement = document.getElementById('timeSlots');
+    console.log(timeSlots);
+    document.getElementById("timeSlots").innerHTML = timeSlots.join('<br />');
+    myArrayInput.value = timeSlots.join(',');
+  }
+</script>
+
+
 
  <script>
       const btn = document.getElementById("btn");
@@ -72,8 +136,6 @@
         }
       });
 
-      var weeks = []; //here store the weeks selected by the user;
-      function handler(e) {
-        weeks.push(e.target.value);
-      }
+
+     
     </script>

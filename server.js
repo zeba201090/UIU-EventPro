@@ -2,17 +2,19 @@ const express = require("express");
 const dotenv = require("dotenv");
 const { start } = require("./db_conn");
 const session = require('express-session');
-
+const path = require('path');
 const ejs = require("ejs");
+const mime = require('mime');
 const app = express();
 start();
+
 
 
 
 const User = require("./models/model_schemaa");
 const Room = require("./models/room_schema");
 dotenv.config();
-
+app.use('/select.css', express.static(path.join(__dirname, 'Public/select.css')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -26,6 +28,12 @@ app.use(session({
   resave: false,
   saveUninitialized: false
 }));
+
+const createRoomm = require('./router/room');
+
+
+
+
 // Connect to DB
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/Signup/index.html");
@@ -69,7 +77,6 @@ app.post("/login", async (req, res) => {
   const email_db = await User.findOne({ email: email_ });
   const pass_db = email_db.password;
   
-  console.log(email_db);
   if (pass === pass_db) {
     req.session.loggedIn = true;
     req.session.userId = User._id;
@@ -81,10 +88,16 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.post("/rooms",requireLogin , async (req, res) => {
-  const { roomName, roomNumber, roomType, capacity, openDays, availableTime } =
-    req.body;
-  console.log(roomName);
+app.post("/rooms" , async (req, res) => {
+  const { roomName, roomNumber, roomType, capacity} = req.body;
+  let days = [];
+  
+  days = req.body.checkbox || [];
+  const availableTime =  req.body.myArray.split(',') || [];
+  console.log(availableTime);
+
+ 
+  
 
   const room = new Room({
     roomName: roomName,
@@ -92,7 +105,7 @@ app.post("/rooms",requireLogin , async (req, res) => {
     roomType: roomType,
     capacity: capacity,
     booking: false,
-    openDays: openDays,
+    openDays: days,
     availableTime: availableTime,
   });
 
@@ -100,6 +113,12 @@ app.post("/rooms",requireLogin , async (req, res) => {
 
   res.send(savedRoom);
 });
+
+app.post("/avl", async(req,res) => {
+  const days = req.body.checkbox;
+  console.log(days);
+  res.send(days);
+})
 
 app.get("/book",requireLogin, async (req, res) => { 
   res.render("book")
@@ -112,7 +131,7 @@ app.post('/bookroom',requireLogin , async(req, res) => {
 
       data = await Room.find({ roomType: selectedRoomType });
       const rooms= data.length;
-      res.render('rooms', { rooms: data,roomLength:rooms ,roomType:selectedRoomType});
+      res.render('rooms', { rooms: data,roomLength:rooms ,roomType:selectedRoomType, availableTime: data.availableTime });
 
     
 });
@@ -125,6 +144,16 @@ app.post('/booking', async(req, res) => {
     { $set: { booking: true }})
 
   res.send("Room Booked Successfully");
+});
+
+app.post('/slot',async(req,res) => {
+  const receivedArray = req.body.myArray.split(',');
+  console.log('Received array:', receivedArray);
+
+  // Handle the array data as needed
+  // ...
+
+  res.send('Array received successfully');
 });
 
 app.get('/logout', (req, res) => {
