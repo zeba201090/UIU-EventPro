@@ -10,28 +10,34 @@
     <form action="/bookroom" method="post">
       <h1>Available Rooms of Type <%= roomType %></h1>
     
-      <% if (roomLength === 0 ) { %>
+      <% if (roomLength === 0) { %>
         <p>No rooms available of the selected type.</p>
       <% } else { %>
-      <ul>
-      <% rooms.forEach(function(room) {
-      if(room.booking==false) { %>
-        <li><h3><%= room.roomNumber %> </h3>
-            <% for (i=0 ; i< room.availableTime.length ; i++)
-              { %> 
-                <input type="checkbox" name="bookedSlots" value= <%= room.availableTime[i] %> > <%= room.availableTime[i] %> </input>
-                <br> 
-              <% }   %> 
-               
-        </li>
-      
-        <button type="submit" formaction="/booking" name="selectedRoom" value="<%= room._id %>" class="btn btn-primary">Book</button>
-        <% }}); %>
-      </ul>
+        <ul>
+          <% rooms.forEach(function(room) {
+            array1 = room.availableTime;
+            array2 = room.bookedSlots;
+            if (array1.length !== array2.length) { %>
+              <li>
+                <h3><%= room.roomNumber %></h3>
+                <% for (i = 0; i < array1.length; i++) { %> 
+                  <% if (!array2.includes(array1[i])) { %>
+                    <input type="checkbox" name="bookedSlots" value="<%= array1[i] %>"> 
+                    <%= array1[i] %>
+                    <input type="hidden" name="selectedRoom" value="<%= room._id %>">
+                    <br>
+                  <% } %> 
+                <% } %>
+              </li>
+              <button type="submit" formaction="/booking" name="selectedRoom" value="<%= room._id %>" class="btn btn-primary">Book</button>
+            <% } %>
+          <% }); %>
+        </ul>
       <% } %>
-
+    
       <a href="/">Go back</a>
     </form>
+    
   </div>
 
   <script>
