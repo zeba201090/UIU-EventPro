@@ -136,18 +136,31 @@ app.post("/bookroom",  async (req, res) => {
 });
 app.post("/booking", async (req, res) => {
   const roomId = req.body.selectedRoom;
+  
+
   let unavailableT = [];
   unavailableT = req.body.bookedSlots;
+  const slotsArray = Object.values(unavailableT)[0]; // Get the array of time slots
+
 
   console.log("Unavailable Time:", unavailableT);
 
-  const arraySlots = Object.values(unavailableT);
-  const updatedRoom = await Room.updateOne({ _id: roomId },   { $push: { bookedSlots: arraySlots  } })
-
   
- 
-  res.send(updatedRoom);
+
+  try {
+    const updatedRoom = await Room.updateOne(
+      { _id: roomId },
+      { $push: { bookedSlots: { $each: slotsArray} } }
+    );
+
+   
+    res.send("Room Booked Successfully");
+  } catch (error) {
+    
+    res.send("Error");
+  }
 });
+
 
 
 app.post("/slot", async (req, res) => {
@@ -159,7 +172,7 @@ app.post("/slot", async (req, res) => {
 
   res.send("Array received successfully");
 });
-
+  
 app.get("/logout", (req, res) => {
   // Clear the session data
   req.session.destroy((err) => {
