@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Select Multiple Dates</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <style>
+    .sidebar {
+      width: 200px;
+      background-color: #c5ff8b;
+      padding: 20px;
+      
+      height: fit-content;
+      margin-left: 70px;
+      margin-top: 30px;
+        border-radius: 10px;
+      
+    }
+  </style>
+</head>
+<body>
+ 
+
+  <div class="calendar-container">
+    <form action="/submit" method="POST">
+      <label for="dates">Select Dates:</label>
+      <input type="text" id="dates" name="dates">
+
+      <input type="submit" value="Submit">
+    </form>
+  </div>
+  <div class="sidebar">
+    <h2>Selected Dates</h2>
+    <ul id="selectedDatesList"></ul>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script>
+    const selectedDatesList = document.getElementById('selectedDatesList');
+
+    flatpickr('#dates', {
+      mode: 'multiple',
+      dateFormat: 'Y-m-d',
+      onChange: function(selectedDates) {
+        selectedDatesList.innerHTML = '';
+        selectedDates.forEach(function(date) {
+          const listItem = document.createElement('li');
+          listItem.textContent = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+          selectedDatesList.appendChild(listItem);
+        });
+      }
+    });
+  </script>
+</body>
+</html>

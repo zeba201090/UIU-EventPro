@@ -4,9 +4,10 @@ const { start } = require("./db_conn");
 const session = require("express-session");
 const path = require("path");
 const ejs = require("ejs");
-const mime = require("mime");
+
 const app = express();
 start();
+app.use(express.static('Public'));
 
 const User = require("./models/model_schemaa");
 const Room = require("./models/room_schema");
@@ -140,7 +141,7 @@ app.post("/booking", async (req, res) => {
 
   let unavailableT = [];
   unavailableT = req.body.bookedSlots;
-  const slotsArray = Object.values(unavailableT)[0]; // Get the array of time slots
+  const slotsArray = Object.values(unavailableT)[0]; // Convert the object to an array
 
 
   console.log("Unavailable Time:", unavailableT);
@@ -172,6 +173,19 @@ app.post("/slot", async (req, res) => {
 
   res.send("Array received successfully");
 });
+
+app.post('/submit-dates',async (req, res) => {
+  const selectedDates = req.body.dates;
+
+  // Process the selected dates as needed
+  console.log(selectedDates);
+
+
+  // Send a response back to the client
+  res.status(200).send('Dates submitted successfully.');
+});
+
+
   
 app.get("/logout", (req, res) => {
   // Clear the session data

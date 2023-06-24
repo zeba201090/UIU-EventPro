@@ -1,5 +1,19 @@
+<style>
+  #container{
+    border-radius: 10px;
+    padding: 20px;
+    background-color: bisque;
+    height: fit-content;
+    width: fit-content;
+    flex: 1
+  }
+</style>
+
 <body>
-  <h1>Book Room</h1>
+  
+
+  <div id="container">
+    <h1>Book Room</h1>
   <form action="/bookroom" method="POST">
     <label for="eventName">Event Name:</label>
     <input type="text" id="eventName" name="eventName" ><br><br>
@@ -16,7 +30,7 @@
     <input type="submit" value="Search">
   </form>
 
-  
+  </div>
 
     
   </body>

@@ -8,10 +8,11 @@
     font-family: 'Poppins', sans-serif;
 }
 body{
-    background-color: #e3f2fd;
+    
 }
 .container{
     position: relative;
+    background-color: aqua;
     max-width: 320px;
     width: 100%;
     margin: 80px auto 30px;
@@ -100,4 +101,12 @@ body{
 }
 .item.checked .check-icon{
     transform: scale(1);
+}
+#form{
+    background-color: aquamarine;
+    padding: 20px;
+    border-radius: 10px;
+    width: fit-content;
+    margin-left: 20px;
+    flex: 1;
 }

@@ -3,10 +3,10 @@
   <link rel="stylesheet" type="text/css" href="/select.css">
 
 </head>
-<button id="btn">ADD A ROOM</button>
-<button onclick="window.location.href='/book';" id="btnbook">BOOK ROOM</button>
+<!-- <button id="btn">ADD A ROOM</button>
+<button onclick="window.location.href='/book';" id="btnbook">BOOK ROOM</button> -->
 
-<div id="form" style="display: none">
+<div id="form" >
   <h1>Add Room</h1>
   <form id="form" action="/rooms" method="POST">
     <label for="roomName">Room Name:</label>
@@ -25,7 +25,7 @@
       <option value="auditorium">Auditorium</option>
       <option value="conference room">Conference Room</option>
       <option value="lab">Lab</option>
-      <option value= classroom" >Classroom</option>
+      <option value= "classroom" >Classroom</option>
       <option value="hallroom">Hallroom</option></select
     ><br /><br />
 
@@ -47,7 +47,7 @@
         <br>
         Tuesday: <input type="checkbox" id="day" name="checkbox"  value="Tuesday">
         <br>
-        Wednesday: <input type="checkbox" id="day" name="checkbox" value="Wednesday"> >
+        Wednesday: <input type="checkbox" id="day" name="checkbox" value="Wednesday"> 
         <br>
         Thursday: <input type="checkbox" id="day"  name="checkbox" value="Thursday">
         <br>
