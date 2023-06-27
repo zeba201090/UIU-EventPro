@@ -122,25 +122,38 @@ app.get("/book",  async (req, res) => {
 
 app.post("/bookroom",  async (req, res) => {
   const selectedRoomType = req.body.roomType; // Retrieve the selected room type from the form
-
+  const selectedDates = req.body.dates;
   let data = [];
+  const formSubmitted = true;
+
 
   data = await Room.find({ roomType: selectedRoomType });
   const rooms = data.length;
   res.render("rooms", {
     rooms: data,
     roomLength: rooms,
+    capacity: data.capacity,
     roomType: selectedRoomType,
     availableTime: data.availableTime,
     bookedSlots: data.bookedSlots,
+    dates: selectedDates,
+
   });
 });
 app.post("/booking", async (req, res) => {
-  const roomId = req.body.selectedRoom;
-  
-
   let unavailableT = [];
-  unavailableT = req.body.bookedSlots;
+  let dates=[];
+
+   dates = req.body.dates;
+   const roomId = req.body.selectedRoom;
+   unavailableT = req.body.bookedSlots;
+
+    const dateArray = dates.split(",");
+    // console.log("Dates check:", dateArray);
+    // console.log("1st date:", dateArray[0]);
+
+
+  
   const slotsArray = Object.values(unavailableT)[0]; // Convert the object to an array
 
 
@@ -149,15 +162,24 @@ app.post("/booking", async (req, res) => {
   
 
   try {
-    const updatedRoom = await Room.updateOne(
-      { _id: roomId },
-      { $push: { bookedSlots: { $each: slotsArray} } }
-    );
+    const room = await Room.findById(roomId);
 
-   
+    if (!room) {
+      // Handle the case where the room with the provided roomId is not found
+      return res.status(404).send("Room not found");
+    }
+
+    for (let i = 0; i < dateArray.length; i++) {
+      console.log("Date:", dateArray[i]);
+
+      room.bookedSlots.push({ date: dateArray[i], times: slotsArray });
+    }
+
+    const updatedRoom = await room.save();
+
     res.send("Room Booked Successfully");
   } catch (error) {
-    
+    console.error(error);
     res.send("Error");
   }
 });
@@ -176,16 +198,18 @@ app.post("/slot", async (req, res) => {
 
 app.post('/submit-dates',async (req, res) => {
   const selectedDates = req.body.dates;
+  
 
-  // Process the selected dates as needed
   console.log(selectedDates);
 
-
-  // Send a response back to the client
-  res.status(200).send('Dates submitted successfully.');
+  res.render("book", { date: selectedDates});
+  
+  
 });
 
-
+app.get("/createEvent", async (req, res) => {
+  res.render("createEvent");
+});
   
 app.get("/logout", (req, res) => {
   // Clear the session data

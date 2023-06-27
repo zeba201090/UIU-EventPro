@@ -28,13 +28,16 @@
       <label for="dates">Select Dates:</label>
       <input type="text" id="dates" name="dates">
 
-      <input type="submit" value="Submit">
+      <input type="submit" value="Confirm dates" required>
     </form>
   </div>
+
+
 
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script>
     const selectedDatesList = document.getElementById('selectedDatesList');
+    const additionalDiv = document.getElementById('additionalDiv');
 
     flatpickr('#dates', {
       mode: 'multiple',
@@ -47,9 +50,13 @@
           listItem.textContent = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
           selectedDatesList.appendChild(listItem);
         });
+
+        // Show the additional div after selecting a date
+        additionalDiv.style.display = 'block';
       }
     });
   </script>
 </body>
+
 
   </html>
