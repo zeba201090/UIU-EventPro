@@ -122,9 +122,13 @@ app.get("/book",  async (req, res) => {
 
 app.post("/bookroom",  async (req, res) => {
   const selectedRoomType = req.body.roomType; // Retrieve the selected room type from the form
-  const selectedDates = req.body.dates;
   let data = [];
-  const formSubmitted = true;
+  let dates=[];
+
+   dates = req.body.dates;
+
+    const dateArray = dates.split(",");
+    console.log("Dates of bookroommm:", dateArray.length);
 
 
   data = await Room.find({ roomType: selectedRoomType });
@@ -136,43 +140,33 @@ app.post("/bookroom",  async (req, res) => {
     roomType: selectedRoomType,
     availableTime: data.availableTime,
     bookedSlots: data.bookedSlots,
-    dates: selectedDates,
+    dates: dateArray,
 
   });
 });
 app.post("/booking", async (req, res) => {
-  let unavailableT = [];
-  let dates=[];
-
-   dates = req.body.dates;
-   const roomId = req.body.selectedRoom;
-   unavailableT = req.body.bookedSlots;
-
-    const dateArray = dates.split(",");
-    // console.log("Dates check:", dateArray);
-    // console.log("1st date:", dateArray[0]);
-
-
-  
-  const slotsArray = Object.values(unavailableT)[0]; // Convert the object to an array
-
-
-  console.log("Unavailable Time:", unavailableT);
-
-  
-
   try {
+    const roomId = req.body.selectedRoom;
+    const dates = req.body.dates;
+    const bookedSlots = req.body.bookedSlots;
+
     const room = await Room.findById(roomId);
 
     if (!room) {
-      // Handle the case where the room with the provided roomId is not found
       return res.status(404).send("Room not found");
     }
 
-    for (let i = 0; i < dateArray.length; i++) {
-      console.log("Date:", dateArray[i]);
+    // Iterate over the dates array
+    for (let i = 0; i < dates.length; i++) {
+      const date = dates[i];
+      const slotsArray = bookedSlots[roomId][i]; // Retrieve the slots array for the current date
 
-      room.bookedSlots.push({ date: dateArray[i], times: slotsArray });
+      console.log("Date:", date);
+      console.log("Slots Array:", slotsArray);
+
+      // Push the date and slots into the bookedSlots array of the room
+      room.bookedSlots.push({ date: date, times: slotsArray });
+      
     }
 
     const updatedRoom = await room.save();
@@ -186,12 +180,12 @@ app.post("/booking", async (req, res) => {
 
 
 
+
 app.post("/slot", async (req, res) => {
   const receivedArray = req.body.myArray.split(",");
   console.log("Received array:", receivedArray);
 
-  // Handle the array data as needed
-  // ...
+ 
 
   res.send("Array received successfully");
 });
