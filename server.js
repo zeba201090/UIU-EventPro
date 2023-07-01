@@ -4,10 +4,14 @@ const { start } = require("./db_conn");
 const session = require("express-session");
 const path = require("path");
 const ejs = require("ejs");
+const puppeteer = require("puppeteer");
+const fs = require("fs");
+
 
 const app = express();
 start();
 app.use(express.static('Public'));
+
 
 const User = require("./models/model_schemaa");
 const Room = require("./models/room_schema");
@@ -144,8 +148,14 @@ app.post("/bookroom",  async (req, res) => {
 
   });
 });
+
+
+
+
+
 app.post("/booking", async (req, res) => {
-  try {
+  
+    let bookingArray = [];
     const roomId = req.body.selectedRoom;
     const dates = req.body.dates;
     const bookedSlots = req.body.bookedSlots;
@@ -155,7 +165,7 @@ app.post("/booking", async (req, res) => {
     if (!room) {
       return res.status(404).send("Room not found");
     }
-
+    try {
     // Iterate over the dates array
     for (let i = 0; i < dates.length; i++) {
       const date = dates[i];
@@ -163,15 +173,18 @@ app.post("/booking", async (req, res) => {
 
       console.log("Date:", date);
       console.log("Slots Array:", slotsArray);
-
+      bookingArray.push({ date: date, times: slotsArray, room: room });
       // Push the date and slots into the bookedSlots array of the room
       room.bookedSlots.push({ date: date, times: slotsArray });
       
     }
+    console.log("Booking Array:", bookingArray);
 
     const updatedRoom = await room.save();
-
-    res.send("Room Booked Successfully");
+    res.render("bookingSummary", { room:roomId,
+      bookingArray: Object.values(bookingArray),
+    })
+    //  res.send("Room Booked Successfully");
   } catch (error) {
     console.error(error);
     res.send("Error");
@@ -214,3 +227,31 @@ app.get("/logout", (req, res) => {
     res.redirect("/"); // Redirect to the login page after logout
   });
 });
+
+
+app.get('/download-pdf', async (req, res) => {
+  try {
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    await page.goto('http://localhost:3000/', { waitUntil: 'networkidle2' });
+
+    await page.setViewport({ width: 1920, height: 1080 });
+
+    const pdf = await page.pdf({
+      path: 'bookingSummary.pdf',
+      format: 'A4'
+    });
+
+    await browser.close();
+
+    const pdfUrl = path.join(__dirname, 'bookingSummary.pdf');
+
+    res.set({ 'Content-Type': 'application/pdf', 'Content-Length': pdf.length });
+    res.sendFile(pdfUrl);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Error generating PDF');
+  }
+});
+
+
