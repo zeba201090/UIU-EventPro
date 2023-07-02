@@ -229,29 +229,50 @@ app.get("/logout", (req, res) => {
 });
 
 
-app.get('/download-pdf', async (req, res) => {
-  try {
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-    await page.goto('http://localhost:3000/', { waitUntil: 'networkidle2' });
+const nodemailer = require('nodemailer');
 
-    await page.setViewport({ width: 1920, height: 1080 });
-
-    const pdf = await page.pdf({
-      path: 'bookingSummary.pdf',
-      format: 'A4'
-    });
-
-    await browser.close();
-
-    const pdfUrl = path.join(__dirname, 'bookingSummary.pdf');
-
-    res.set({ 'Content-Type': 'application/pdf', 'Content-Length': pdf.length });
-    res.sendFile(pdfUrl);
-  } catch (error) {
-    console.log(error);
-    res.status(500).send('Error generating PDF');
+// Create a transporter object with your email service provider's SMTP configuration
+const transporter = nodemailer.createTransport({
+  service: 'Gmail',
+  auth: {
+    user: 'jsnode741@gmail.com',
+    pass: 'pxkcamdnlblsqoqh'
   }
 });
+
+// Route to handle button click and send email
+app.get('/send-', (req, res) => {
+  const mailOptions = {
+    from: 'jsnode741@gmail.com',
+    to: 'mzeba16@gmail.com',
+    subject: 'Confirmation Email',
+    html: 'bookingSummary.ejs'
+  };
+
+  // Send the email
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error('Error sending email:', error);
+      res.status(500).send('Error sending email');
+    } else {
+      console.log('Email sent:', info.response);
+      res.send('Email sent successfully');
+    }
+  });
+});
+
+const { sendEmail } = require("./email");
+
+
+
+app.get("/send-email", (req, res) => {
+  sendEmail(
+    "mzeba16@gmail.com",
+    "Welcome message",
+    "Welcome message content"
+  );
+  res.send("send email success");
+});
+
 
 
