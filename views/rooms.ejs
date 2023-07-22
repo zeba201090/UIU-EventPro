@@ -42,42 +42,60 @@
   <div id="availableRoom">
     <form action="/booking" method="post">
       <h1>Available Rooms of Type <%= roomType %></h1>
-
+  
       <% if (roomLength === 0) { %>
-      <p>No rooms available of the selected type.</p>
+        <p>No rooms available of the selected type.</p>
       <% } else { %>
         <div class="container">
+                    <input type="hidden" value="<%= eventName %>" name="eventName">
+                    <input type="hidden" value="<%= eventOrganizer %>" name="eventOrganizer">
+                    <input type="hidden" value="<%= eventEmail %>" name="eventEmail">
+                    <input type="hidden" value="<%= eventPhone %>" name="eventPhone">
+                    <input type="hidden" value="<%= eventType %>" name="eventType">
           <% for (let i = 0; i < dates.length; i++) { %>
             <input type="text" value="<%= dates[i] %>" name="dates[<%= i %>]">
             <ul>
               <% rooms.forEach(function(room) {
-                array1 = room.availableTime;
-                array2 = room.bookedSlots;
-                if (array1.length !== array2.length) { %>
+                const bookedTimesForDate = new Set();
+                room.bookedSlots.forEach(function(slot) {
+                  if (slot.date.includes(dates[i])) {
+                    slot.times.forEach(function(time) {
+                      bookedTimesForDate.add(time);
+                    });
+                  }
+                });
+  
+                const availableTimes = room.availableTime.filter(function(time) {
+                  return !bookedTimesForDate.has(time);
+                });
+  
+                if (availableTimes.length > 0) { %>
                   <li>
                     <h3><%= room.roomNumber %></h3>
                     <h3>Capacity: <%= room.capacity %> </h3>
-                    <% for (let j = 0; j < array1.length; j++) {
-                      if (!array2.includes(array1[j])) { %>
-                        <input type="checkbox" name="bookedSlots[<%= room._id %>][<%= i %>][<%= j %>]" value="<%= array1[j] %>" />
-                        <%= array1[j] %><br />
-                      <% }
-                    } %>
+                    <% for (let j = 0; j < availableTimes.length; j++) { %>
+                      <input type="checkbox" name="bookedSlots[<%= room._id %>][<%= i %>][<%= j %>]" value="<%= availableTimes[j] %>" />
+                      <%= availableTimes[j] %><br />
+                    <% } %>
+                    
                     <button type="submit" formaction="/booking" name="selectedRoom" value="<%= room._id %>" class="btn btn-primary">Book</button>
                   </li>
-              <% } }); %>
+                <% } else { %>
+                  <li>
+                    <h3><%= room.roomNumber %></h3>
+                    <p>No available time slots for this date.</p>
+                  </li>
+                <% } %>
+              <% }); %>
             </ul>
           <% } %>
         </div>
-        
-        <% } %>
-        
-       
-        
-
+      <% } %>
+  
       <a href="/">Go back</a>
     </form>
   </div>
+  
 
   <!-- <script>
     const searchButton = document.getElementById("searchButton");

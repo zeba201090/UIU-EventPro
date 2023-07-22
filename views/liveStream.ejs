@@ -1,0 +1,83 @@
+<!-- views/liveStream.ejs -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Live Streaming Demo</title>
+</head>
+<body>
+  <h1>Live Streaming Demo</h1>
+  <button id="goLive">Go Live</button>
+  <div id="videoContainer">
+    <!-- Video element for showing the live stream -->
+    <video id="liveStream" autoplay controls></video>
+  </div>
+  <div id="viewerLinkContainer" style="display: none;">
+    <p>Share this link with viewers:</p>
+    <input type="text" id="viewerLink" readonly>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+    let localStream;
+    let peer;
+
+    document.getElementById('goLive').addEventListener('click', () => {
+      navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+        .then((stream) => {
+          // Store the local stream to access it later for broadcasting
+          localStream = stream;
+          const videoElement = document.getElementById('liveStream');
+          videoElement.srcObject = stream;
+
+          // Emit the "go-live" event to the server
+          socket.emit('go-live');
+
+          // Send the local stream to the server for broadcasting
+          socket.emit('broadcast-stream', stream);
+
+          // Show the viewer link container
+          const viewerLinkContainer = document.getElementById('viewerLinkContainer');
+          const viewerLink = document.getElementById('viewerLink');
+          viewerLink.value = window.location.origin + '/view';
+          viewerLinkContainer.style.display = 'block';
+        })
+        .catch((err) => {
+          console.error('Error accessing webcam:', err);
+        });
+    });
+
+    // Receive the live stream from the server and display it
+    socket.on('live-stream', (streamURL) => {
+      const videoElement = document.getElementById('liveStream');
+      videoElement.srcObject = new MediaStream([streamURL]);
+    });
+  </script>
+
+  <!-- Viewer script -->
+  <script>
+    const viewerSocket = io();
+    let viewerPeer;
+
+    // Create the peer connection for the viewer
+    const createViewerPeerConnection = () => {
+      viewerPeer = new SimplePeer({ initiator: false, trickle: false });
+
+      viewerPeer.on('signal', (data) => {
+        viewerSocket.emit('viewer-signal', data);
+      });
+
+      viewerPeer.on('stream', (stream) => {
+        const videoElement = document.getElementById('liveStream');
+        videoElement.srcObject = stream;
+      });
+    };
+
+    // Receive the offer signal from the broadcaster
+    viewerSocket.on('offer-signal', (data) => {
+      createViewerPeerConnection();
+      viewerPeer.signal(data);
+    });
+  </script>
+</body>
+</html>

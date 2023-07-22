@@ -16,6 +16,12 @@
     <form action="/bookroom" method="POST">
       
       <label for="roomName">YOUR DATES: </label>
+      <input type="hidden" value="<%= eventName %>" name="eventName">
+      <input type="hidden" value="<%= eventOrganizer %>" name="eventOrganizer">
+      <input type="hidden" value="<%= eventEmail %>" name="eventEmail">
+      <input type="hidden" value="<%= eventPhone %>" name="eventPhone">
+      <input type="hidden" value="<%= eventType %>" name="eventType">
+
       <input type="text" id="dates" value= "<%= date %>" name="dates" readonly>
       <label for="roomType">Room Type:</label>
       <select id="roomType" name="roomType" required>
