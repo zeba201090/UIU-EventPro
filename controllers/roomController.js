@@ -1,5 +1,6 @@
 // roomController.js
 const Room = require("../models/room_schema");
+const Event = require("../models/event_schema");
 
 async function createRoom(req, res) {
   const { roomName, roomNumber, roomType, capacity } = req.body;
@@ -85,8 +86,33 @@ async function bookRoom(req, res) {
 
 async function confirmBooking(req, res) {
   const bookingArray = JSON.parse(req.body.bookingArray);
-  const {eventName, eventOrganizer, eventEmail, eventPhone,eventType} = req.body;
+  const { eventName, eventOrganizer, eventEmail, eventPhone, eventType } = req.body;
 
+  const bookedSlotsData = []; // Fix 1: Initialize as an empty object, not an array
+
+  for (const bookingData of bookingArray) {
+    const { date, times, room } = bookingData; // Fix 3: Access properties inside each element
+
+    bookedSlotsData.push({
+      date,
+      times,
+      room,
+    });
+  }
+
+  console.log(bookedSlotsData); // Log the entire array to check its contents
+
+  const createEvent = new Event({
+    eventName: eventName,
+    eventOrganizer: eventOrganizer,
+    eventEmail: eventEmail,
+    eventPhone: eventPhone,
+    eventType: eventType,
+    bookedSlots: bookedSlotsData, 
+  });
+
+  const savedEvent = await createEvent.save();
+  console.log(savedEvent);
   res.render("confirmBooking", { bookingArray, eventName, eventOrganizer, eventEmail, eventPhone,eventType });
 
 }

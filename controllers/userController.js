@@ -85,10 +85,6 @@ function sendEmail(req, res) {
 
 }
 
-async function confirmBooking(req, res) {
-  const { room, bookingArray } = req.body;
-}
-
 
 module.exports = {
   register,

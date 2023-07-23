@@ -1,0 +1,61 @@
+const mongoose = require('mongoose');
+
+const eventSchema = new mongoose.Schema({
+  eventName: {
+    type: String,
+    
+  },
+  eventOrganizer: {
+    type: String,
+    
+  },
+  eventEmail: {
+    type: String,
+   
+  },
+  eventPhone: {
+    type: String,
+   
+  },
+  eventType: {
+    type: String,
+    
+  },
+  bookedSlots: [{
+    date: {
+      type: [String],
+      
+    },
+    times: {
+      type: [String],
+      
+    },
+    room: {
+        _id: {
+          type: String,
+          
+        },
+        roomName: {
+          type: String,
+          
+        },
+        roomNumber: {
+          type: String,
+          
+        },
+        roomType: {
+          type: String,
+          
+        },
+        capacity: {
+          type: Number,
+          
+        },
+      },
+  }],
+  
+});
+
+const Event = mongoose.model('Event', eventSchema);
+
+module.exports = Event;
