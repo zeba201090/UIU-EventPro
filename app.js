@@ -5,6 +5,12 @@ const path = require("path");
 const ejs = require("ejs");
 const app = express();
 
+const SSLCommerzPayment = require('sslcommerz-lts')
+const store_id = 'uiuev64c807f0af33c'
+const store_passwd = 'uiuev64c807f0af33c@ssl'
+const is_live = false //true for live, false for sandbox
+
+
 const { start } = require("./db_conn.js");
 start();
 dotenv.config();
@@ -43,12 +49,14 @@ app.post("/booking", roomController.bookRoom);
 app.post("/slot", roomController.processSlots);
 app.post("/submit-dates", roomController.submitDates);
 app.post("/booking-confirm", roomController.confirmBooking);
-
+app.get("/viewEvents", roomController.viewEvents);
 app.get("/logout", userController.logout);
 app.post("/send-eemail", userController.sendEmail);
 app.use('/live', liveController);
 app.use('/view', viewerController); 
 
+app.get('/init',userController.payment);
+app.post('/confirmation_page',userController.confirmation_page);
 
 
 app.listen(3000, () => {

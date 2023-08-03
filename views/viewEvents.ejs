@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <%- include('navbar') %>
+    <h1 style="align-content: center;">ALL EVENTS</h1>
+
+    <div style="height: fit-content; background-color: rgb(224, 248, 196); width: 700px; margin-left: 20%;">
+
+            
+  <% if (events.length === 0) { %>
+    <p>No events found.</p>
+  <% } else { %>
+    <ul>
+      <% events.forEach((event) => { %>
+        <div style="height: fit-content; background-color: rgb(152, 240, 200); width: 500px;" >
+        <li>
+          <h2> <%= event.eventName %></h2>
+          <p>Organizer: <%= event.eventOrganizer %></p>
+          <p>Email: <%= event.eventEmail %></p>
+          <p>Phone: <%= event.eventPhone %></p>
+            <p>Type: <%= event.eventType %></p>
+           
+            
+
+            
+            <% event.bookedSlots.forEach((booking) => { %>
+            <div style="height: fit-content; background-color: rgb(243, 179, 237);">
+            <p>Event Date: <%= booking.date %></p>
+            <p> Timing: <%= booking.times %></p>
+            </div>
+            <% }); %>
+        </li>
+    </div>
+      <% }); %>
+    </ul>
+  <% } %>
+    </div>
+        
+</body>
+</html>
