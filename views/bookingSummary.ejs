@@ -1,3 +1,210 @@
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  #right {
+  background-color: #f6fbff;
+}
+
+/* Style for the table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px; /* Add margin to create space between the table and surrounding elements */
+}
+
+/* Style for table headers */
+th {
+  padding: 10px 20px; /* Add padding to the header cells for spacing */
+  text-align: left; /* Align text to the left within header cells */
+  background-color: #e0e0e0;
+}
+
+/* Style for table data cells */
+td {
+  padding: 10px 20px;
+  border-top: 1px solid #ccc; /* Add a border at the top of each data cell */
+}
+
+/* Responsive styles */
+@media (max-width: 480px) {
+  #right {
+    padding: 10px;
+  }
+}
+
+  /* White rounded div styles for headings and paragraphs */
+  
+  h2,
+  p {
+    background-color: white;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+
+  /* Heading styles */
+  h1 {
+    font-size: 25px;
+    color: #f0f0f0;
+  }
+
+  h2 {
+    font-size: 18px;
+  }
+
+  /* List styles */
+  ul {
+    list-style: none;
+    margin-top: 20px;
+    padding-left: 20px;
+  }
+
+  li {
+    margin-bottom: 10px;
+  }
+
+  /* Button styles */
+  button {
+    display: block;
+    width: 40%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  button:hover {
+    background-color: #0056b3;
+  }
+
+  /* Responsive styles */
+  @media (max-width: 480px) {
+    #content {
+      padding: 10px;
+    }
+  }
+
+ 
+  #left {
+    margin-top: 10px;
+    float: left;
+    margin-left: 30px;
+   
+  }
+
+  /* Apply styles to the container */
+#left {
+  background-color: #f6fbff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  margin-right: 20px; /* Add spacing between the two divs */
+}
+
+/* Event details styling */
+.event-details {
+  margin-top: 10px;
+}
+
+.event-details p {
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+/* Responsive styles */
+@media (max-width: 480px) {
+  #left {
+    padding: 10px;
+  }
+}
+
+  #right {
+    display: flex;
+    float: right;
+    
+    margin-right: 30px;
+    border-radius: 10px;
+    padding: 10px;
+  }
+
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f0f0;
+    margin: 0;
+  }
+
+  #booking-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+/* Apply styles to the container */
+#right {
+  background-color: #f6fbff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  flex-grow: 1;
+}
+
+/* Event details styling */
+.event-details {
+  margin-top: 10px;
+}
+
+.event-details p {
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+/* Table styles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+}
+
+th {
+  background-color: #e0e0e0;
+}
+
+/* Button styles */
+button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+</style>
+
 <head>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
@@ -5,29 +212,20 @@
   <!--JSPDF CDN-->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/polyfills.umd.js"></script>
 
-  <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.0/html2canvas.min.js"
-    integrity="sha512-UcDEnmFoMh0dYHu0wGsf5SKB7z7i5j3GuXHCnb3i4s44hfctoLihr896bxM0zL7jGkcHQXXrJsFIL62ehtd6yQ=="
-    crossorigin="anonymous"
-    referrerpolicy="no-referrer"
-  ></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.0/html2canvas.min.js" integrity="sha512-UcDEnmFoMh0dYHu0wGsf5SKB7z7i5j3GuXHCnb3i4s44hfctoLihr896bxM0zL7jGkcHQXXrJsFIL62ehtd6yQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js "></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 
-<div
-  style="background-color: rgb(244, 246, 182); height: 'fit-content'"
-  id="content"
->
-  <h1>Booking Summary</h1>
-  <h2><strong>Event Name:</strong> <%= eventName %></h2>
-  <h2><strong>Event Organizer:</strong> <%= eventOrganizer %></h2>
-  <h2><strong>Event Email:</strong> <%= eventEmail %></h2>
-  <h2><strong>Event Phone:</strong> <%= eventPhone %></h2>
-  <h2><strong>Event Type:</strong> <%= eventType %></h2>
+
+  
+
+ 
+  
   <form action="/booking-confirm" method="POST">
-    
+
+
     <input type="hidden" value="<%= JSON.stringify(bookingArray) %>" name="bookingArray" />
     <input type="hidden" value="<%= room %>" name="selectedRoom" />
     <input type="hidden" value="<%= eventName %>" name="eventName" />
@@ -36,25 +234,48 @@
     <input type="hidden" value="<%= eventPhone %>" name="eventPhone" />
     <input type="hidden" value="<%= eventType %>" name="eventType" />
 
-    <ul>
-      <h3>Room Details</h3>
-      <% for (let i = 0; i < bookingArray.length; i++) { %>
-      <li>
-        <h3>
-          Room Number :<%= bookingArray[i].room.roomNumber %> <%=
-          bookingArray[i].room.roomName %>
-        </h3>
-      </li>
-      <h3>Room Type : <%= bookingArray[i].room.roomType %></h3>
-      <h3>Room Capacity : <%= bookingArray[i].room.capacity %></h3>
-      <h3>Event Dates : <%= bookingArray[i].date %></h3>
-      <h3>Event Timing : <%= bookingArray[i].times %></h3>
 
-      <% } %>
-    </ul>
-
-    <button type="submit" > CONFIRM</button>
-
-  </form>
-</div>
-
+    <!-- <h1>Room Details</h1> -->
+    <div id="booking-summary">
+      <div id="left">
+        <h2><strong>Event Information</strong></h2>
+        <div class="event-details">
+          <p><strong>Event Name:</strong> <%= eventName %></p>
+          <p><strong>Event Organizer:</strong> <%= eventOrganizer %></p>
+          <p><strong>Event Email:</strong> <%= eventEmail %></p>
+          <p><strong>Event Phone:</strong> <%= eventPhone %></p>
+          <p><strong>Event Type:</strong> <%= eventType %></p>
+        </div>
+      </div>
+      
+      <div id="right" style="background-color: #f6fbff">
+        <table>
+          <thead>
+            <tr>
+              <th>Room Number</th>
+              <th>Room Name</th>
+              <th>Room Type</th>
+              <th>Room Capacity</th>
+              <th>Event Dates</th>
+              <th>Event Timing</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for (let i=0; i < bookingArray.length; i++) { %>
+            <tr>
+              <td><%= bookingArray[i].room.roomNumber %></td>
+              <td><%= bookingArray[i].room.roomName %></td>
+              <td><%= bookingArray[i].room.roomType %></td>
+              <td><%= bookingArray[i].room.capacity %></td>
+              <td><%= bookingArray[i].date %></td>
+              <td><%= bookingArray[i].times %></td>
+            </tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    
+    <button type="submit">CONFIRM</button>
+    </form>
+    

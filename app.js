@@ -40,7 +40,7 @@ app.set("view engine", "ejs");
 // Routes
 app.get("/", indexController.index);
 app.post("/submit", userController.register);
-app.post("/login", userController.login);
+app.post("/homepage", userController.login);
 app.post("/rooms", roomController.createRoom);
 app.post("/avl", roomController.getAvailableDays);
 app.get("/book", roomController.renderBookPage);
@@ -54,7 +54,7 @@ app.get("/logout", userController.logout);
 app.post("/send-eemail", userController.sendEmail);
 app.use('/live', liveController);
 app.use('/view', viewerController); 
-
+app.post('/searchEvent', roomController.searchEvent);
 app.get('/init',userController.payment);
 app.post('/confirmation_page',userController.confirmation_page);
 

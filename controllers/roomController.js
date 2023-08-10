@@ -1,9 +1,10 @@
 const Room = require("../models/room_schema");
 const Event = require("../models/event_schema");
+const { name } = require("ejs");
 
 async function createRoom(req, res) {
   try {
-    const { roomName, roomNumber, roomType, capacity } = req.body;
+    const { roomName, roomNumber, roomType, capacity, booking_fee } = req.body;
     const days = req.body.checkbox || [];
     const availableTime = req.body.myArray.split(",") || [];
 
@@ -15,6 +16,7 @@ async function createRoom(req, res) {
       booking: false,
       openDays: days,
       availableTime,
+      fee: booking_fee,
     });
 
     const savedRoom = await room.save();
@@ -160,6 +162,13 @@ function submitDates(req, res) {
   res.render('book', { date: selectedDates, eventName, eventOrganizer, eventEmail, eventPhone, eventType });
 }
 
+async function searchEvent(req, res) {
+  const  eventName  = req.body.search;
+  const events = await Event.find({$text: { $search: eventName }});
+  console.log(req.body.search);
+  res.render('viewEvents', { events });
+}
+
 module.exports = {
   createRoom,
   getAvailableDays,
@@ -170,4 +179,4 @@ module.exports = {
   submitDates,
   confirmBooking,
   viewEvents,
-};
+  searchEvent }

@@ -39,7 +39,7 @@ async function login(req, res) {
   if (loginpassword === pass_db) {
     req.session.loggedIn = true;
     req.session.userId = User._id;
-    res.render("homepage", { name: email_db.firstName });
+    res.render("index", { name: email_db.firstName });
   } else {
     res.send("Password not matching");
   }
