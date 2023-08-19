@@ -45,7 +45,7 @@ async function renderRooms(req, res) {
 
     const data = await Room.find({ roomType });
     const rooms = data.length;
-    res.render("rooms", {
+    res.render("roomSlotSelect", {
       rooms: data,
       roomLength: rooms,
       capacity: data.capacity,
@@ -83,11 +83,10 @@ async function bookRoom(req, res) {
       bookingArray.push({ date, times: slotsArray, room });
       room.bookedSlots.push({ date, times: slotsArray });
     }
-
+    console.log(Object.values(bookingArray));
     const updatedRoom = await room.save();
     res.render("bookingSummary", {
       room: selectedRoom,
-      bookingArray2: bookingArray,
       bookingArray: Object.values(bookingArray),
       eventName,
       eventOrganizer,
@@ -102,38 +101,40 @@ async function bookRoom(req, res) {
 }
 
 async function confirmBooking(req, res) {
-  try {
-    const bookingArray = JSON.parse(req.body.bookingArray);
+  
+    
+    
+
+    try {
+      // const parsedArray = JSON.parse(bookingArray); // Parse the JSON string
+      // // Now you can work with the parsed array of objects
+      // console.log('ETAIIIIIIII',parsedArray);
+  
+
+      
     const { eventName, eventOrganizer, eventEmail, eventPhone, eventType } = req.body;
-
-    const bookedSlotsData = [];
-
-    for (const bookingData of bookingArray) {
-      const { date, times, room } = bookingData;
-
-      bookedSlotsData.push({
-        date,
-        times,
-        room,
-      });
-    }
-
+ 
+   
     
 
-    const createEvent = new Event({
-      eventName,
-      eventOrganizer,
-      eventEmail,
-      eventPhone,
-      eventType,
-      bookedSlots: bookedSlotsData,
-    });
-    const savedEvent = await Event.create(createEvent);
+    // const createEvent = new Event({
+    //   eventName,
+    //   eventOrganizer,
+    //   eventEmail,
+    //   eventPhone,
+    //   eventType,
+    //   bookedSlots: bookedSlotsData,
+    // });
+    // const savedEvent = await Event.create(createEvent);
 
-    const queryString = `bookingArray=${bookedSlotsData}&eventName=${eventName}&eventOrganizer=${eventOrganizer}&eventEmail=${eventEmail}&eventPhone=${eventPhone}&eventType=${eventType}`;
-    
+    const queryString = `eventName=${eventName}&eventOrganizer=${eventOrganizer}&eventEmail=${eventEmail}&eventPhone=${eventPhone}&eventType=${eventType}`;
+
+    console.log(queryString);
+
     res.redirect(`/init?${queryString}`);
-  } catch (error) {
+
+  }
+   catch (error) {
     console.error(error);
     res.send("Error");
   }
@@ -168,6 +169,45 @@ async function searchEvent(req, res) {
   console.log(req.body.search);
   res.render('viewEvents', { events });
 }
+async function latestEvent(req, res) {
+  const events = await Event.find().sort({$natural:-1}).limit(3);
+  console.log(events);
+  res.render('latestEvent', { events });
+}
+
+async function allRooms(req, res) {
+  const rooms = await Room.find();
+
+  res.render('allRooms', { rooms });
+}
+
+async function book_Event(req, res) {
+
+  console.log('hi i am hit');
+    res.render('book_Event');
+}
+async function add_room_page(req, res) {
+
+  console.log('hi ');
+    res.render('addRoom_page');
+}
+
+async function viewBookedSlots(req, res) {
+  try {
+    const roomId = req.body.roomId;
+
+    const rooms = await Room.findById(roomId);
+
+    if (!rooms) {
+      return res.status(404).send("Room not found");
+    }
+
+    res.render('viewBookedSlots', { rooms });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("An error occurred");
+  }
+}
 
 module.exports = {
   createRoom,
@@ -179,4 +219,11 @@ module.exports = {
   submitDates,
   confirmBooking,
   viewEvents,
-  searchEvent }
+  searchEvent,
+  latestEvent,
+  book_Event,
+  add_room_page, 
+  allRooms,
+  viewBookedSlots
+
+}

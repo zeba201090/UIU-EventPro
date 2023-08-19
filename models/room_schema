@@ -51,6 +51,14 @@ const roomSchema = new mongoose.Schema({
   }]
 });
 
+roomSchema.pre('save', function (next) {
+  const currentDate = new Date().toISOString().split('T')[0]; // Get current date in ISO format (YYYY-MM-DD)
+  
+  // Filter out bookedSlots with dates in the past
+  this.bookedSlots = this.bookedSlots.filter(slot => slot.date >= currentDate);
+  
+  next();
+});
 const Room = mongoose.model('Room', roomSchema);
 
 module.exports = Room;

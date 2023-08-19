@@ -12,35 +12,61 @@
 
   <style>
     #box {
-      display: flex;
-      width: 40%;
+      
+      width: 50%;
       margin-left: 12%;
       margin-top: 20px;
       background-color: rgb(94, 151, 182);
-      padding: 20px;
+      padding: 10px;
       border-radius: 5px;
     }
 
     #eventbox {
-      display: flex;
-      margin-left: 20px;
-
+    
+      
+      float: right;
       width: 300px;
       height: 400px;
-      margin: 10px 0;
-      padding: 20px;
+      font-weight: bold;
+      text-decoration: underline;
+      margin-top: 30px;
+      margin-right: 30px;
+      padding: 40px;
       border-radius: 5px;
-      background-color: rgb(197, 242, 242);
+      background-color: rgb(134, 198, 224);
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      
     }
 
     #image{
       width: 800px;
       height: 400px;
     }
+    #container {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      background-color: royalblue;
+    }
+    
   </style>
 
   <body>
+    <div id="container">
+      <button
+      type="button"
+      class="btn btn-secondary"
+      style="margin-left: 10px"
+      onclick="location.href='/book_Event'">
+      Book an Event
+    </button>
+    <button
+    type="button"
+    class="btn btn-primary"
+    style="margin-left: 10px"
+    onclick="location.href='/add_room_page'">
+    Add A New Room
+  </button>
     <div id="box">
       <div
         id="carouselExampleDark"
@@ -118,20 +144,27 @@
         </button>
       </div>
     </div>
-
-    <div id="eventbox"></div>
-    <button
+    <div id="eventbox">
+      <h3>Latest Event</h3>
+      <%- include('latestEvent') %>
+      <button
       type="button"
       class="btn btn-primary"
-      style="margin-left: 10px"
-      onclick="location.href='/viewEvents'"
-    >
+      style="margin-left: 10px;"
+      onclick="location.href='/viewEvents'">
       View All Events
     </button>
+
+    </div>
+    </div>
+    
   </body>
 </html>
 
 <script>
+  
+  
+
   let slideIndex = 0;
   showSlides();
 

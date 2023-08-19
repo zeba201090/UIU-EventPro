@@ -44,10 +44,13 @@ app.post("/homepage", userController.login);
 app.post("/rooms", roomController.createRoom);
 app.post("/avl", roomController.getAvailableDays);
 app.get("/book", roomController.renderBookPage);
-app.post("/bookroom", roomController.renderRooms);
+app.post("/selectSlot", roomController.renderRooms);
 app.post("/booking", roomController.bookRoom);
 app.post("/slot", roomController.processSlots);
 app.post("/submit-dates", roomController.submitDates);
+app.get("/book_Event", roomController.book_Event);
+app.get("/add_room_page", roomController.add_room_page);
+app.get("/allRooms", roomController.allRooms);
 app.post("/booking-confirm", roomController.confirmBooking);
 app.get("/viewEvents", roomController.viewEvents);
 app.get("/logout", userController.logout);
@@ -56,7 +59,10 @@ app.use('/live', liveController);
 app.use('/view', viewerController); 
 app.post('/searchEvent', roomController.searchEvent);
 app.get('/init',userController.payment);
-app.post('/confirmation_page',userController.confirmation_page);
+app.get('/latestEvent',roomController.latestEvent);
+// app.get('/allRooms',roomController.allRooms);
+app.post('/test',userController.confirmation_page);
+app.post('/viewBookedSlots',roomController.viewBookedSlots);
 
 
 app.listen(3000, () => {

@@ -5,8 +5,8 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <style>
     .sidebar {
-      width: 200px;
-      background-color: #c5ff8b;
+      width: 300px;
+      background-color: #6ccbeeb3;
       padding: 20px;
       
       height: fit-content;
@@ -18,18 +18,19 @@
   </style>
 </head>
 <body>
-  <div class="sidebar">
-    <h2>Selected Dates</h2>
-    <ul id="selectedDatesList"></ul>
-  </div>
+  
 
   <div class="calendar-container">
     <!-- <form action="/submit-dates" method="POST"> -->
       <label for="dates">Select Dates:</label>
-      <input type="text" id="dates" name="dates">
+      <input type="text" id="dates" name="dates" required>
 
       <input type="submit" value="Confirm dates" required>
     <!-- </form> -->
+  </div>
+  <div class="sidebar">
+    <h4>Selected Dates</h4>
+    <ul id="selectedDatesList"></ul>
   </div>
 
 

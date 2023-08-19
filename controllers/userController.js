@@ -1,5 +1,6 @@
 // userController.js
 const User = require("../models/model_schemaa");
+const Event = require("../models/event_schema");
 const {start} = require("../db_conn.js");
 const SSLCommerzPayment = require('sslcommerz-lts')
 const store_id = 'uiuev64c807f0af33c'
@@ -35,11 +36,12 @@ async function login(req, res) {
 
   const email_db = await User.findOne({ email: username });
   const pass_db = email_db.password;
+  const events = await Event.find().sort({$natural:-1}).limit(3);
 
   if (loginpassword === pass_db) {
     req.session.loggedIn = true;
     req.session.userId = User._id;
-    res.render("index", { name: email_db.firstName });
+    res.render("index", { name: email_db.firstName,  events  });
   } else {
     res.send("Password not matching");
   }
@@ -94,9 +96,11 @@ function sendEmail(req, res) {
 async function confirmation_page(req, res) {
   try {
     console.log('Confirmation page...');
-    
-    // const { eventName, eventOrganizer, eventEmail, eventPhone, eventType } = req.query;
+  
 
+
+    const { eventName, eventOrganizer, eventEmail, eventPhone, eventType } = req.query;
+    
     // const bookedSlotsData = [];
 
     // for (const bookingData of bookingArray) {
@@ -120,8 +124,8 @@ async function confirmation_page(req, res) {
     //   bookedSlots: bookedSlotsData,
     // });
     // const savedEvent = await Event.create(createEvent);
-    console.log(req.query);
-    res.send('PAYMENT SUCCESFULL....');
+    
+    res.render('success');
     
   } catch (error) {
     console.error(error);
@@ -133,19 +137,21 @@ async function confirmation_page(req, res) {
 
 async function payment(req, res) {
   console.log('Payment initiated...');
-  const bookingArray=JSON.parse(req.query.bookingArray); 
+ 
   const eventName = req.query.eventName;
   const eventOrganizer = req.query.eventOrganizer;
   const eventEmail = req.query.eventEmail;
   const eventPhone = req.query.eventPhone;
   const eventType = req.query.eventType;
   
+  
+  
  
   const data = {
       total_amount: 100,
       currency: 'BDT',
       tran_id: 'REF123', // use unique tran_id for each api call
-      success_url: 'http://localhost:3000/confirmation_page',
+      success_url: 'http://localhost:3000/test',
       fail_url: 'http://localhost:3000/fail',
       cancel_url: 'http://localhost:3000/cancel',
       ipn_url: 'http://localhost:3000/ipn',
@@ -172,8 +178,8 @@ async function payment(req, res) {
       ship_country: 'Bangladesh',
   };
 
-  const successURLWithBookingInfo = `http://localhost:3000/confirmation_page?eventName=${eventName}&eventOrganizer=${eventOrganizer}&eventEmail=${eventEmail}&eventPhone=${eventPhone}&eventType=${eventType}&bookingArray=${encodeURIComponent(bookingArray)}`;
-  
+  const successURLWithBookingInfo = `http://localhost:3000/test?eventName=${eventName}&eventOrganizer=${eventOrganizer}&eventEmail=${eventEmail}&eventPhone=${eventPhone}&eventType=${eventType}`;
+  console.log(successURLWithBookingInfo);
   data.success_url = successURLWithBookingInfo;
   const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live)
   sslcz.init(data).then(apiResponse => {

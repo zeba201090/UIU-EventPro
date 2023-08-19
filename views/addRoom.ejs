@@ -1,14 +1,82 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  
+</body>
+</html>
 <head>   <base href="/">  
   <link rel="stylesheet" type="text/css" href="/select.css">
+ 
+ <style>
+    /* Internal CSS Styles */
+    
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: white;
+    }
+    #timeSlots{
+      font-family: Arial, sans-serif;
+      font-weight: 100;
+      padding: 30px;
+      background-color: rgba(87, 202, 234, 0.704);
+    }
+    #form-container{
+      max-width: 500px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: white;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    label {
+      font-weight: bold;
+	    display: block;
+      margin-top: 10px;
+    }
+    input[type="text"],
+    input[type="number"],
+    select {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+    input[type="checkbox"] {
+      margin-right: 5px;
+    }
+    select#roomType,
+    select#timeSlot {
+      width: 100%;
+    }
+    input[type="submit"] {
+      background-color: #ffffff;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    input[type="submit"]:hover {
+      background-color: #ffffff;
+    }
+  </style>
 
 </head>
 <!-- <button id="btn">ADD A ROOM</button>
 <button onclick="window.location.href='/book';" id="btnbook">BOOK ROOM</button> -->
 
-<div id="form" >
+<div id="form-container" >
   <h1>Add Room</h1>
-  <form id="form" action="/rooms" method="POST">
+  <form  action="/rooms" method="POST">
     <label for="roomName">Room Name:</label>
     <input type="text" id="roomName" name="roomName" required /><br /><br />
 
@@ -70,7 +138,7 @@
           <option value="8:30 AM - 2:00 PM">8:30 PM - 2:00 PM</option>
         </select>
         
-        <p id="timeSlots" name="timeSlot">  </p>   
+        <p  id="timeSlots" name="timeSlot"> Room's Available Slots: </p>   
         <br>
 
         <label for="booking_fee">Booking Fee:</label>
@@ -80,7 +148,7 @@
     
 
 
-    <input type="submit" value="Add Room" />
+    <button type="submit" value="Add Room">Add Room</button>
   </form>
 </div>
 <br>
@@ -131,10 +199,10 @@
         const form = document.getElementById("form");
 
         if (form.style.display === "none") {
-          // 👇️ this SHOWS the form
+          // ??? this SHOWS the form
           form.style.display = "block";
         } else {
-          // 👇️ this HIDES the form
+          // ??? this HIDES the form
           form.style.display = "none";
         }
       });

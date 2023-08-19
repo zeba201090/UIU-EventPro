@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>All Rooms</title>
+
+    <style>
+        body {
+          font-family: Arial, sans-serif;
+        }
+        .main-heading {
+          text-align: center;
+        }
+        .rooms-container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          border: 5px solid #e7edf1;
+          border-radius: 10px;
+          width: fit-content;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          margin: 0 auto;
+          padding: 20px;
+        }
+        .room-item {
+          width: 100%;
+          max-width: 800px;
+          margin: 10px 0;
+          padding: 20px;
+          border-radius: 5px;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .room-item:nth-child(even) {
+          background-color: rgb(138, 235, 248);
+        }
+        .room-item:hover {
+          background-color: rgb(255, 255, 255);
+        }
+         
+        .table-header, .table-data {
+          padding: 10px;
+          text-align: left;
+          border-bottom: 1px solid #ddd;
+          font-weight: bold;
+        }
+        .table-header {
+          background-color: #f2f2f2;
+        }
+      
+        .table-body {
+          padding: 50px;
+          width: 800px;
+          border-collapse: collapse;
+          background-color: rgb(101, 197, 248);
+          border-color: chartreuse;
+        }
+      </style>
+      
+
+</head>
+<body>
+    <%- include('navbar') %>
+    <button
+      type="button"
+      class="btn btn-primary"
+      style="margin-left: 10px"
+      onclick="location.href='/viewEvents'"
+    >
+      View All Events
+    </button>
+
+  <div style="display: flex; justify-content: center; align-items: center; margin: 20px; flex-direction: column; width: 100%" >
+    
+    <label><h2> Search For A Room : </h2>
+    <form action="/" method="POST">
+      <input style="border-radius: 5px; height: 50px;" type="text" name="search"  placeholder="Search for a room">
+      <button type="submit" class="btn btn-info" >Search</button>
+    </label>
+    </form>
+    
+  </div>
+    
+   
+    
+  </div>
+  
+    
+    
+  <div class="rooms-container">
+    <% if (rooms.length === 0) { %>
+      <p>No rooms found.</p>
+    <% } else { %>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Room No.</th>
+            <th>Room Type</th>
+            <th>Capacity</th>
+            <th>Open Days</th>
+            <th>Available Time</th>
+            <th>Booked Slots</th>
+            
+          </tr>
+        </thead>
+        <tbody>
+          <% rooms.forEach((room, index) => { %>
+            <tr class="room-item">
+              <td><%= index + 1 %></td>
+              <td><%= room.roomNumber %></td>
+              <td><%= room.roomType %></td>
+              <td><%= room.capacity %></td>
+              <td>
+                <ul>
+                  <% room.openDays.forEach((day) => { %>
+                    <li><%= day %></li>
+                  <% }); %>
+                </ul>
+              </td>
+              <td>
+                <ul>
+                  <% room.availableTime.forEach((time) => { %>
+                    <li><%= time %></li>
+                  <% }); %>
+                </ul>
+              </td>
+              <td>
+                <form action="\viewBookedSlots" method="post">
+                <input type="hidden" class="btn btn-primary" value="<%= room._id %>" name="roomId" />
+                <button type="submit" class="btn btn-primary">View Booked Slots</button>
+            </form>
+              </td>
+              
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    <% } %>
+  </div>
+  
+    
+    
+</body>
+</html>
