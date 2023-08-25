@@ -53,6 +53,7 @@
                     <input type="hidden" value="<%= eventEmail %>" name="eventEmail">
                     <input type="hidden" value="<%= eventPhone %>" name="eventPhone">
                     <input type="hidden" value="<%= eventType %>" name="eventType">
+                    
           <% for (let i = 0; i < dates.length; i++) { %>
             <h4 style="margin-left: 50px;text-decoration: underline;"> <%= dates[i] %> </h4>
             <input type="hidden" value="<%= dates[i] %>" name="dates[<%= i %>]">
@@ -72,11 +73,13 @@
                 });
   
                 if (availableTimes.length > 0) { %>
-                  <li>
+                  <li style="background-color: rgb(255, 185, 56); border-radius: 5px;">
                     <h3>Room : <%= room.roomNumber %></h3>
                     <h5>Capacity: <%= room.capacity %> </h5>
+                    <h5 style="background-color: rgb(255, 255, 255); width: 200px; border-radius: 3px;">  Booking Fee : <%= room.fee %></h5>
                     <% for (let j = 0; j < availableTimes.length; j++) { %>
                       <input type="checkbox" name="bookedSlots[<%= room._id %>][<%= i %>][<%= j %>]" value="<%= availableTimes[j] %>" />
+                      <input type="hidden" name="fee" value="<%= room.fee %>">
                       <%= availableTimes[j] %><br />
                     <% } %>
                     

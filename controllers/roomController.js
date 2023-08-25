@@ -58,6 +58,7 @@ async function renderRooms(req, res) {
       eventEmail,
       eventPhone,
       eventType,
+      feee: data.fee,
     });
   } catch (error) {
     console.error(error);
@@ -67,7 +68,7 @@ async function renderRooms(req, res) {
 
 async function bookRoom(req, res) {
   try {
-    const { eventName, eventOrganizer, eventEmail, eventPhone, eventType, selectedRoom, dates, bookedSlots } = req.body;
+    const { eventName, eventOrganizer, eventEmail, eventPhone, eventType, selectedRoom, dates, bookedSlots,fee } = req.body;
     // const { selectedRoom, dates, bookedSlots } = req.body;
 
     const room = await Room.findById(selectedRoom);
@@ -83,7 +84,7 @@ async function bookRoom(req, res) {
       bookingArray.push({ date, times: slotsArray, room });
       room.bookedSlots.push({ date, times: slotsArray });
     }
-    console.log(Object.values(bookingArray));
+    console.log(fee);
     const updatedRoom = await room.save();
     res.render("bookingSummary", {
       room: selectedRoom,
@@ -93,6 +94,7 @@ async function bookRoom(req, res) {
       eventEmail,
       eventPhone,
       eventType,
+      fee
     });
   } catch (error) {
     console.error(error);
@@ -106,28 +108,10 @@ async function confirmBooking(req, res) {
     
 
     try {
-      // const parsedArray = JSON.parse(bookingArray); // Parse the JSON string
-      // // Now you can work with the parsed array of objects
-      // console.log('ETAIIIIIIII',parsedArray);
-  
-
       
-    const { eventName, eventOrganizer, eventEmail, eventPhone, eventType } = req.body;
- 
-   
-    
+    const { eventName, eventOrganizer, eventEmail, eventPhone, eventType,totalFee } = req.body;
 
-    // const createEvent = new Event({
-    //   eventName,
-    //   eventOrganizer,
-    //   eventEmail,
-    //   eventPhone,
-    //   eventType,
-    //   bookedSlots: bookedSlotsData,
-    // });
-    // const savedEvent = await Event.create(createEvent);
-
-    const queryString = `eventName=${eventName}&eventOrganizer=${eventOrganizer}&eventEmail=${eventEmail}&eventPhone=${eventPhone}&eventType=${eventType}`;
+    const queryString = `eventName=${eventName}&eventOrganizer=${eventOrganizer}&eventEmail=${eventEmail}&eventPhone=${eventPhone}&eventType=${eventType} &amount=${totalFee}`;
 
     console.log(queryString);
 
@@ -145,6 +129,15 @@ async function viewEvents(req, res) {
   try {
     const events = await Event.find();
     res.render("viewEvents", { events });
+  } catch (error) {
+    console.error(error);
+    res.send("Error");
+  }
+}
+async function userEvents(req, res) {
+  try {
+    const events = await Event.find();
+    res.render("events_User", { events });
   } catch (error) {
     console.error(error);
     res.send("Error");
@@ -168,6 +161,12 @@ async function searchEvent(req, res) {
   const events = await Event.find({$text: { $search: eventName }});
   console.log(req.body.search);
   res.render('viewEvents', { events });
+}
+async function searchEvent_user(req, res) {
+  const  eventName  = req.body.search;
+  const events = await Event.find({$text: { $search: eventName }});
+  console.log(req.body.search);
+  res.render('events_User', { events });
 }
 async function latestEvent(req, res) {
   const events = await Event.find().sort({$natural:-1}).limit(3);
@@ -208,6 +207,35 @@ async function viewBookedSlots(req, res) {
     res.status(500).send("An error occurred");
   }
 }
+async function totalSales(req, res) {
+  try {
+    const roomId = req.body.roomId || req.query.roomId;
+
+      const page = parseInt(req.query.page) || 1;
+      const page_limit = 10;
+      const skip = (page - 1) * page_limit;
+
+      const rooms = await Room.findById(roomId)
+        .populate({
+          path: 'bookedSlots',
+          options: {
+            skip: skip,
+            limit: page_limit
+    }
+  });
+
+    res.render('totalSales', { rooms });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("An error occurred");
+  }
+}
+
+async function bookTicket (req,res) {
+  
+
+}
+
 
 module.exports = {
   createRoom,
@@ -224,6 +252,9 @@ module.exports = {
   book_Event,
   add_room_page, 
   allRooms,
-  viewBookedSlots
+  viewBookedSlots,
+  totalSales,
+  userEvents,
+  searchEvent_user
 
 }

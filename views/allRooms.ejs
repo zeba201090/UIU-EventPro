@@ -25,8 +25,8 @@
           padding: 20px;
         }
         .room-item {
-          width: 100%;
-          max-width: 800px;
+          
+          width: 1000px;
           margin: 10px 0;
           padding: 20px;
           border-radius: 5px;
@@ -51,7 +51,7 @@
       
         .table-body {
           padding: 50px;
-          width: 800px;
+          width: 1000px;
           border-collapse: collapse;
           background-color: rgb(101, 197, 248);
           border-color: chartreuse;
@@ -92,6 +92,7 @@
     <% if (rooms.length === 0) { %>
       <p>No rooms found.</p>
     <% } else { %>
+      
       <table>
         <thead>
           <tr>
@@ -102,6 +103,7 @@
             <th>Open Days</th>
             <th>Available Time</th>
             <th>Booked Slots</th>
+            <th>Total Slot Sales</th>
             
           </tr>
         </thead>
@@ -131,6 +133,11 @@
                 <input type="hidden" class="btn btn-primary" value="<%= room._id %>" name="roomId" />
                 <button type="submit" class="btn btn-primary">View Booked Slots</button>
             </form>
+              </td>
+              <td> <form action="\totalSales" method="post">
+                <input type="hidden" class="btn btn-primary" value="<%= room._id %>" name="roomId" />
+                <button type="submit" class="btn btn-primary" style="background-color: greenyellow;">Total Sales</button>
+                </form>
               </td>
               
             </tr>

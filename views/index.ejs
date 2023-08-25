@@ -6,11 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>EventBooking</title>
-    <h2 style="float: right">WELCOME, <%= name %></h2>
+    <% if (typeof name !== 'undefined' && name !== null) { %> 
+      <h2 style="float: right">WELCOME, <%= name %></h2>
+    <% } %>
     <%- include('navbar') %>
   </head>
 
   <style>
+    
     #box {
       
       width: 50%;
@@ -49,6 +52,7 @@
       background-color: royalblue;
     }
     
+    
   </style>
 
   <body>
@@ -67,6 +71,13 @@
     onclick="location.href='/add_room_page'">
     Add A New Room
   </button>
+  <button
+      type="button"
+      class="btn btn-warning"
+      style="margin-left: 10px"
+      onclick="location.href='/live'">
+      Go Live
+    </button>
     <div id="box">
       <div
         id="carouselExampleDark"
@@ -151,7 +162,7 @@
       type="button"
       class="btn btn-primary"
       style="margin-left: 10px;"
-      onclick="location.href='/viewEvents'">
+      onclick="location.href='/userEvents'">
       View All Events
     </button>
 

@@ -259,22 +259,7 @@ button:hover {
 
 <head>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
-  <!--JSPDF CDN-->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/polyfills.umd.js"></script>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.0/html2canvas.min.js" integrity="sha512-UcDEnmFoMh0dYHu0wGsf5SKB7z7i5j3GuXHCnb3i4s44hfctoLihr896bxM0zL7jGkcHQXXrJsFIL62ehtd6yQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js "></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
 </head>
-
-
-  
-
 
   <form action="/booking-confirm" method="POST">
 
@@ -302,6 +287,7 @@ button:hover {
        <div style="background-color: #ffffffb0; border-radius: 8px; padding: 20px;">
       <ul>
           <h3> Room Details</h3>
+        <% var total = 0; %>
           <% for (let i = 0; i < bookingArray.length; i++) {
             %>
             <li><h3>Room Number :<%= bookingArray[i].room.roomNumber %> <%= bookingArray[i].room.roomName %></h3></li>
@@ -309,15 +295,19 @@ button:hover {
               <h3> Room Capacity : <%= bookingArray[i].room.capacity %></h3>
               <h3> Event Dates : <%= bookingArray[i].date %></h3>
               <h3> Event Timing : <%= bookingArray[i].times %></h3>
-              
+              <h3> Booking Fee : <%= bookingArray[i].room.fee %></h3>
+              <% 
+               total = total+(bookingArray[i].room.fee * bookingArray[i].times.length); %>
           <% } %>
+          <h3 style="background-color: beige; border-radius: 4px; width: 300px;"> Total Booking Fee : <%= total %></h3>
+          <input type="hidden" value="<%= total %>" name="totalFee" />
         </ul>
        </div> 
   
       
   </div>
    
-    <button id="button1" type="submit">Online Payment</button>
+    <button  id="button1" type="submit">Online Payment</button>
 
 
     </form>
@@ -332,7 +322,9 @@ button:hover {
 
 
     function sendEmail() {
-      fetch('/send-eemail?eventName=${eventName}&eventOrganizer=${eventOrganizer}&eventEmail=${eventEmail}&eventPhone=${eventPhone}&bookingArray=${bookingArray}' ,{method: 'POST',})
+      fetch(`/send-email?eventName=${encodeURIComponent(eventName)}&eventOrganizer=${encodeURIComponent(eventOrganizer)}&eventEmail=${encodeURIComponent(eventEmail)}&eventPhone=${encodeURIComponent(eventPhone)}&bookingArray=${encodeURIComponent(JSON.stringify(bookingArray))}`, {
+    method: 'POST'
+  })
         .then(response => {
          
           alert('Email sent successfully');

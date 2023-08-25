@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Document</title>
+
+    <style>
+      body {
+      font-family: Arial, sans-serif;
+    }
+    h1 {
+      text-align: center;
+    }
+    .events-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: 5px solid #1b8eda;
+      border-radius: 10px;
+      width: fit-content;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .event-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+  }
+
+  .book-button {
+    margin-top: 10px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  .card-grid {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 300px;
+  }
+
+  .event-card {
+    width: 25%;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+
+  .event-card .card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    padding: 16px;
+    text-align: justify;
+    background-color: #f1f1f1;
+  }
+
+  .event-card .book-button {
+    margin-top: 10px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+    </style>
+</head>
+<body>
+    <%- include('navbar') %>
+    <button
+      type="button"
+      class="btn btn-primary"
+      style="margin-left: 10px"
+      onclick="location.href='/viewEvents'"
+    >
+      View All Events
+    </button>
+
+  <div style="display: flex; justify-content: center; align-items: center; margin: 20px; flex-direction: column; width: 100%" >
+    
+    <label><h2> Search For An Event : </h2>
+    <form action="/SearchUserEvents" method="POST">
+      <input style="border-radius: 5px; height: 50px;" type="text" name="search"  placeholder="Search for an event">
+      <button type="submit" class="btn btn-info" >Search</button>
+    </label>
+    </form>
+    
+  </div>
+    
+    <div>
+      <% if (events.length === 0) { %>
+        <p>No events found.</p>
+      <% } else { %>
+        <% let Organizer = new Set(); %>
+            <% events.forEach((event, index) => { %>
+              <% event.bookedSlots.forEach((booking) => { %>
+               
+                  <% 
+                  Organizer.add(event.eventOrganizer); 
+                  %>
+                  
+
+              <% }); %>
+            <% }); %>
+         
+      <% } %>
+    </div>
+    
+  </div>
+  
+    
+    
+
+    <% if (events.length === 0) { %>
+      <p>No events found.</p>
+    <% } else { %>
+      <div class="card-grid">
+        <% events.forEach((event, index) => { %>
+          <% event.bookedSlots.forEach((booking) => { %>
+            <div class="event-card">
+              <div class="card">
+                <h3><%= event.eventName %></h3>
+                <p><strong>Organizer:</strong> <%= event.eventOrganizer %></p>
+                <p><strong>Email:</strong> <%= event.eventEmail %></p>
+                <p><strong>Phone:</strong> <%= event.eventPhone %></p>
+                <p><strong>Type:</strong> <%= event.eventType %></p>
+                <p><strong>Event Date:</strong> <%= booking.date %></p>
+                <p><strong>Timing:</strong></p>
+                <ul>
+                  <% booking.times.forEach((time) => { %>
+                    <li><%= time %></li>
+                  <% }); %>
+                </ul>
+                <button class="book-button">Book Tickets</button>
+              </div>
+            </div>
+          <% }); %>
+        <% }); %>
+      </div>
+    <% } %>
+ 
+    
+    
+</body>
+</html>

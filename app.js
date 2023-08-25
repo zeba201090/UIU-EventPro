@@ -41,6 +41,8 @@ app.set("view engine", "ejs");
 app.get("/", indexController.index);
 app.post("/submit", userController.register);
 app.post("/homepage", userController.login);
+app.get("/homepage", userController.homepage);
+
 app.post("/rooms", roomController.createRoom);
 app.post("/avl", roomController.getAvailableDays);
 app.get("/book", roomController.renderBookPage);
@@ -63,6 +65,11 @@ app.get('/latestEvent',roomController.latestEvent);
 // app.get('/allRooms',roomController.allRooms);
 app.post('/test',userController.confirmation_page);
 app.post('/viewBookedSlots',roomController.viewBookedSlots);
+app.post('/totalSales', roomController.totalSales);
+app.get('/totalSales', roomController.totalSales);
+app.get('/userEvents', roomController.userEvents);
+app.post('/SearchUserEvents', roomController.searchEvent_user);
+// app.post('bookTicket', roomController.bookTicket);
 
 
 app.listen(3000, () => {
