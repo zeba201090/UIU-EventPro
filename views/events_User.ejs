@@ -125,11 +125,18 @@
       <p>No events found.</p>
     <% } else { %>
       <div class="card-grid">
+        
         <% events.forEach((event, index) => { %>
           <% event.bookedSlots.forEach((booking) => { %>
             <div class="event-card">
               <div class="card">
+                <form action="\bookTicket" method="post" >
                 <h3><%= event.eventName %></h3>
+                <input type="hidden" name="eventName" value="<%= event.eventName %>">
+                <input type="hidden" name="eventOrganizer" value="<%= event.eventOrganizer %>">
+                <input type="hidden" name="TicketPrice" value="200">
+                <input type="hidden" name="eventPhone" value="<%= event.eventPhone %>">
+                <input type="hidden" name="name" value="Zeba">
                 <p><strong>Organizer:</strong> <%= event.eventOrganizer %></p>
                 <p><strong>Email:</strong> <%= event.eventEmail %></p>
                 <p><strong>Phone:</strong> <%= event.eventPhone %></p>
@@ -141,7 +148,9 @@
                     <li><%= time %></li>
                   <% }); %>
                 </ul>
-                <button class="book-button">Book Tickets</button>
+               
+                <button type="submit" class="book-button">Book Tickets :200 BDT</button>
+              </form>
               </div>
             </div>
           <% }); %>

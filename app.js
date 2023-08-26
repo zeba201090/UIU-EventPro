@@ -69,7 +69,7 @@ app.post('/totalSales', roomController.totalSales);
 app.get('/totalSales', roomController.totalSales);
 app.get('/userEvents', roomController.userEvents);
 app.post('/SearchUserEvents', roomController.searchEvent_user);
-// app.post('bookTicket', roomController.bookTicket);
+app.post('/bookTicket', userController.bookTicket);
 
 
 app.listen(3000, () => {

@@ -188,6 +188,43 @@ async function payment(req, res) {
   });
 }
 
+async function bookTicket (req, res) {
+  try {
+    console.log("Confirmation page...");
+
+    const { eventName, eventOrganizer,TicketPrice,eventPhone, name } =
+      req.body;
+
+    res.render("successTicket", {eventName, eventOrganizer,  eventPhone, TicketPrice,name} );
+    // const bookedSlotsData = [];
+
+    // for (const bookingData of bookingArray) {
+    //   const { date, times, room } = bookingData;
+
+    //   bookedSlotsData.push({
+    //     date,
+    //     times,
+    //     room,
+    //   });
+    // }
+
+    // const createEvent = new Event({
+    //   eventName,
+    //   eventOrganizer,
+    //   eventEmail,
+    //   eventPhone,
+    //   eventType,
+    //   bookedSlots: bookedSlotsData,
+    // });
+    // const savedEvent = await Event.create(createEvent);
+
+    res.render("success");
+  } catch (error) {
+    console.error(error);
+    res.send("Error");
+  }
+}
+
 module.exports = {
   register,
   login,
@@ -195,5 +232,6 @@ module.exports = {
   sendEmail,
   payment,
   confirmation_page,
-  homepage
+  homepage,
+  bookTicket
 };

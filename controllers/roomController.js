@@ -39,7 +39,7 @@ function renderBookPage(req, res) {
 
 async function renderRooms(req, res) {
   try {
-    const { eventName, eventOrganizer, eventEmail, eventPhone, eventType } = req.body;
+    const { eventName, eventOrganizer, eventEmail, eventPhone, eventType,Ticketprice } = req.body;
     const { roomType, dates } = req.body;
     const dateArray = dates.split(",");
 
@@ -59,6 +59,7 @@ async function renderRooms(req, res) {
       eventPhone,
       eventType,
       feee: data.fee,
+      Ticketprice
     });
   } catch (error) {
     console.error(error);
@@ -68,7 +69,7 @@ async function renderRooms(req, res) {
 
 async function bookRoom(req, res) {
   try {
-    const { eventName, eventOrganizer, eventEmail, eventPhone, eventType, selectedRoom, dates, bookedSlots,fee } = req.body;
+    const { eventName, eventOrganizer, eventEmail, eventPhone, eventType, selectedRoom, dates, bookedSlots,fee,Ticketprice } = req.body;
     // const { selectedRoom, dates, bookedSlots } = req.body;
 
     const room = await Room.findById(selectedRoom);
@@ -84,8 +85,16 @@ async function bookRoom(req, res) {
       bookingArray.push({ date, times: slotsArray, room });
       room.bookedSlots.push({ date, times: slotsArray });
     }
-    console.log(fee);
-    const updatedRoom = await room.save();
+    const newEvent = new Event({
+      eventName,
+      eventOrganizer,
+      eventEmail,
+      eventPhone,
+      eventType,
+      bookedSlots: bookingArray,
+      Ticketprice
+    });
+    newEvent.save();
     res.render("bookingSummary", {
       room: selectedRoom,
       bookingArray: Object.values(bookingArray),
@@ -96,6 +105,8 @@ async function bookRoom(req, res) {
       eventType,
       fee
     });
+
+    
   } catch (error) {
     console.error(error);
     res.send("Error");
@@ -103,14 +114,8 @@ async function bookRoom(req, res) {
 }
 
 async function confirmBooking(req, res) {
-  
-    
-    
-
-    try {
-      
+   try {
     const { eventName, eventOrganizer, eventEmail, eventPhone, eventType,totalFee } = req.body;
-
     const queryString = `eventName=${eventName}&eventOrganizer=${eventOrganizer}&eventEmail=${eventEmail}&eventPhone=${eventPhone}&eventType=${eventType} &amount=${totalFee}`;
 
     console.log(queryString);
@@ -134,9 +139,10 @@ async function viewEvents(req, res) {
     res.send("Error");
   }
 }
+
 async function userEvents(req, res) {
   try {
-    const events = await Event.find();
+    const events = await Event.find().sort({$natural:-1});
     res.render("events_User", { events });
   } catch (error) {
     console.error(error);
@@ -150,10 +156,10 @@ async function processSlots(req, res) {
 }
 
 function submitDates(req, res) {
-  const { eventName, eventOrganizer, eventEmail, eventPhone, eventType } = req.body;
+  const { eventName, eventOrganizer, eventEmail, eventPhone, eventType,Ticketprice } = req.body;
   const selectedDates = req.body.dates;
   console.log(selectedDates);
-  res.render('book', { date: selectedDates, eventName, eventOrganizer, eventEmail, eventPhone, eventType });
+  res.render('book', { date: selectedDates, eventName, eventOrganizer, eventEmail, eventPhone, eventType,Ticketprice });
 }
 
 async function searchEvent(req, res) {

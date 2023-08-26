@@ -17,9 +17,9 @@
     #box {
       
       width: 50%;
-      margin-left: 12%;
+      
       margin-top: 20px;
-      background-color: rgb(94, 151, 182);
+      background-color: rgb(214, 227, 234);
       padding: 10px;
       border-radius: 5px;
     }
@@ -49,7 +49,6 @@
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-      background-color: royalblue;
     }
     
     
@@ -157,6 +156,9 @@
     </div>
     <div id="eventbox">
       <h3>Latest Event</h3>
+      <script>
+        fetch('/latestEvent');
+      </script>
       <%- include('latestEvent') %>
       <button
       type="button"

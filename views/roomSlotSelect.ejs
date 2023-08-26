@@ -53,6 +53,7 @@
                     <input type="hidden" value="<%= eventEmail %>" name="eventEmail">
                     <input type="hidden" value="<%= eventPhone %>" name="eventPhone">
                     <input type="hidden" value="<%= eventType %>" name="eventType">
+                    <input type="hidden" value=" <%= TicketPrice %>" name="TicketPrice">
                     
           <% for (let i = 0; i < dates.length; i++) { %>
             <h4 style="margin-left: 50px;text-decoration: underline;"> <%= dates[i] %> </h4>
@@ -73,7 +74,7 @@
                 });
   
                 if (availableTimes.length > 0) { %>
-                  <li style="background-color: rgb(255, 185, 56); border-radius: 5px;">
+                  <li style="background-color: rgb(255, 255, 255); border-radius: 5px;">
                     <h3>Room : <%= room.roomNumber %></h3>
                     <h5>Capacity: <%= room.capacity %> </h5>
                     <h5 style="background-color: rgb(255, 255, 255); width: 200px; border-radius: 3px;">  Booking Fee : <%= room.fee %></h5>
