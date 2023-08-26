@@ -1,0 +1,54 @@
+<style>
+  #container{
+    border-radius: 10px;
+    padding: 20px;
+    background-color: rgb(255, 255, 255);
+    height: 400px;
+    width: fit-content;
+    box-shadow: 10px 8px 0px rgb(191 219 254);
+    align-items: center;
+    margin: 0 auto;
+    margin-top: 90px;
+    padding-top: 20px;
+
+    flex: 1
+  }
+</style>
+<head>
+  <%- include('navbar') %>
+
+  <title> Select Room</title>
+</head>
+<body>
+  
+  <div id="container">
+    <h1>Book Room</h1>
+    <form action="/selectSlot" method="POST">
+      
+      <label for="roomName">YOUR DATES: </label>
+      <input type="hidden" value="<%= eventName %>" name="eventName">
+      <input type="hidden" value="<%= eventOrganizer %>" name="eventOrganizer">
+      <input type="hidden" value="<%= eventEmail %>" name="eventEmail">
+      <input type="hidden" value="<%= eventPhone %>" name="eventPhone">
+      <input type="hidden" value="<%= eventType %>" name="eventType">
+      
+      <h4> <%= date %> </h4>
+      <input type="text" id="dates" value= "<%= date %>" name="dates" readonly>
+      <label for="roomType">Room Type:</label>
+      <select id="roomType" name="roomType" required>
+        <option value="auditorium">Auditorium</option>
+        <option value="conference room">Conference Room</option>
+        <option value="lab">Lab</option>
+        <option value="classroom">Classroom</option>
+        <option value="hallroom">Hallroom</option>
+      </select>
+
+      <button class="btn btn-primary" type="submit" value="Search" id="searchButton">Search</button>
+      
+
+      
+    </form>
+  </div>
+
+  
+</body>

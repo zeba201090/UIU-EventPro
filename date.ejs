@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Select Multiple Dates</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <style>
+    .sidebar {
+      width: 300px;
+      background-color: #6ccbeeb3;
+      padding: 20px;
+      
+      height: fit-content;
+      margin-left: 70px;
+      margin-top: 30px;
+        border-radius: 10px;
+      
+    }
+  </style>
+</head>
+<body>
+  
+
+  <div class="calendar-container">
+    <!-- <form action="/submit-dates" method="POST"> -->
+      <label for="dates">Select Dates:</label>
+      <input type="text" id="dates" name="dates" required>
+
+      <input type="submit" value="Confirm dates" required>
+    <!-- </form> -->
+  </div>
+  <div class="sidebar">
+    <h4>Selected Dates</h4>
+    <ul id="selectedDatesList"></ul>
+  </div>
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script>
+    const selectedDatesList = document.getElementById('selectedDatesList');
+    const additionalDiv = document.getElementById('additionalDiv');
+
+    flatpickr('#dates', {
+      mode: 'multiple',
+      dateFormat: 'Y-m-d',
+      minDate: 'today', // Restrict selection of past dates
+      onChange: function(selectedDates) {
+        selectedDatesList.innerHTML = '';
+        selectedDates.forEach(function(date) {
+          const listItem = document.createElement('li');
+          listItem.textContent = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+          selectedDatesList.appendChild(listItem);
+        });
+
+        // Show the additional div after selecting a date
+        additionalDiv.style.display = 'block';
+      }
+    });
+  </script>
+</body>
+
+
+  </html>

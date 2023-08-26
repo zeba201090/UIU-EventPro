@@ -1,0 +1,370 @@
+
+
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  #right {
+  background-color: #f6fbff;
+}
+
+/* Style for the table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px; /* Add margin to create space between the table and surrounding elements */
+}
+
+/* Style for table headers */
+th {
+  padding: 10px 20px; /* Add padding to the header cells for spacing */
+  text-align: left; /* Align text to the left within header cells */
+  background-color: #e0e0e0;
+}
+
+/* Style for table data cells */
+td {
+  padding: 10px 20px;
+  border-top: 1px solid #ccc; /* Add a border at the top of each data cell */
+}
+
+/* Responsive styles */
+@media (max-width: 480px) {
+  #right {
+    padding: 10px;
+  }
+}
+
+  /* White rounded div styles for headings and paragraphs */
+  
+  h2,
+  p {
+    background-color: white;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+
+  /* Heading styles */
+  h1 {
+    font-size: 25px;
+    color: #f0f0f0;
+  }
+
+  h2 {
+    font-size: 18px;
+  }
+
+  /* List styles */
+  ul {
+    list-style: none;
+    margin-top: 20px;
+    padding-left: 20px;
+  }
+
+  li {
+    margin-bottom: 10px;
+  }
+
+  /* Button styles */
+  button {
+    display: block;
+    width: 40%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  button:hover {
+    background-color: #0056b3;
+  }
+
+  /* Responsive styles */
+  @media (max-width: 480px) {
+    #content {
+      padding: 10px;
+    }
+  }
+
+ 
+  #left {
+    margin-top: 10px;
+    float: left;
+    margin-left: 30px;
+   
+  }
+
+  /* Apply styles to the container */
+#left {
+  background-color: #f6fbff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  margin-right: 20px; /* Add spacing between the two divs */
+}
+
+/* Event details styling */
+.event-details {
+  margin-top: 10px;
+}
+
+.event-details p {
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+/* Responsive styles */
+@media (max-width: 480px) {
+  #left {
+    padding: 10px;
+  }
+}
+
+  #right {
+    display: flex;
+    float: right;
+    
+    margin-right: 30px;
+    border-radius: 10px;
+    padding: 10px;
+  }
+
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f0f0;
+    margin: 0;
+  }
+
+  #booking-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+/* Apply styles to the container */
+#right {
+  background-color: #f6fbff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  flex-grow: 1;
+}
+
+/* Event details styling */
+.event-details {
+  margin-top: 10px;
+}
+
+.event-details p {
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+/* Table styles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+}
+
+th {
+  background-color: #e0e0e0;
+}
+#sendEmail{
+
+  display: inline-block;
+  outline: none;
+  cursor: pointer;
+  font-weight: 600;
+  border-radius: 3px;
+  padding: 12px 24px;
+  border: 0;
+  color: #00408f;
+  background: #95cdf5;
+  height: 40px;
+  line-height: 1.15;
+  width: fit-content;
+  font-size: 16px;
+  :hover {
+      transition: all .1s ease;
+      box-shadow: 0 0 0 0 #fff, 0 0 0 3px #1de9b6;
+  }
+                
+}
+#pdfButton{
+
+  display: inline-block;
+  outline: none;
+  cursor: pointer;
+  height: fit-content;
+  width: fit-content;
+  font-weight: 600;
+  border-radius: 3px;
+  padding: 12px 24px;
+  border: 0;
+  color: #fff;
+  background: #000a47;
+  line-height: 1.15;
+  margin-top:20px;
+  font-size: 16px;
+  :hover {
+      transition: all .1s ease;
+      box-shadow: 0 0 0 0 #fff, 0 0 0 3px #1de9b6;
+  }
+                
+}
+
+/* Button styles */
+#button1 {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+#content{
+  margin-top: 30px;
+  width: 700px;
+  padding: 50px;
+  padding: 30px;
+  
+}
+</style>
+
+<head>
+  
+</head>
+<div>
+  <form action="/booking-confirm" method="POST">
+
+    <input type="hidden" value="<%= JSON.stringify(bookingArray) %>" name="allDetails" />
+    <input type="hidden" value="<%= room %>" name="selectedRoom" />
+    <input type="hidden" value="<%= eventName %>" name="eventName" />
+    <input type="hidden" value="<%= eventOrganizer %>" name="eventOrganizer" />
+    <input type="hidden" value="<%= eventEmail %>" name="eventEmail" />
+    <input type="hidden" value="<%= eventPhone %>" name="eventPhone" />
+    <input type="hidden" value="<%= eventType %>" name="eventType" />
+
+
+    <!-- <h1>Room Details</h1> -->
+    <div style="background-color: rgb(91, 187, 232);height:'fit-content';" id="content">
+      <h1> 
+          Booking Confirmed
+      </h1>
+      <h2><strong>Event Name:</strong> <%= eventName %></h2>
+      <h2><strong>Event Organizer:</strong> <%= eventOrganizer %></h2>
+      <h2><strong>Event Email:</strong> <%= eventEmail %></h2>
+      <h2><strong>Event Phone:</strong> <%= eventPhone %></h2>
+      <h2><strong>Event Type:</strong> <%= eventType %></h2>
+      
+       %>
+       <div style="background-color: #ffffffb0; border-radius: 8px; padding: 20px;">
+      <ul>
+          <h3> Room Details</h3>
+        <% var total = 0; %>
+          <% for (let i = 0; i < bookingArray.length; i++) {
+            %>
+            <li><h3>Room Number :<%= bookingArray[i].room.roomNumber %> <%= bookingArray[i].room.roomName %></h3></li>
+              <h3>Room Type : <%= bookingArray[i].room.roomType %></h3>
+              <h3> Room Capacity : <%= bookingArray[i].room.capacity %></h3>
+              <h3> Event Dates : <%= bookingArray[i].date %></h3>
+              <h3> Event Timing : <%= bookingArray[i].times %></h3>
+              <h3> Booking Fee : <%= bookingArray[i].room.fee %></h3>
+              <% 
+               total = total+(bookingArray[i].room.fee * bookingArray[i].times.length); %>
+          <% } %>
+          <h3 style="background-color: beige; border-radius: 4px; width: 300px;"> Total Booking Fee : <%= total %></h3>
+          <input type="hidden" value="<%= total %>" name="totalFee" />
+        </ul>
+       </div> 
+  
+      
+  </div>
+   
+    <button  id="button1" type="submit">Online Payment</button>
+
+
+    </form>
+    </div>
+ <div style="text-align: center; background-color: #8bf0f000; width: 300px; height: fit-content; margin-left: 40px;">
+  <button id="sendEmail" onclick="sendEmail()" >Send Confirmation Email</button>
+
+  <button id="pdfButton" onclick="makepdf()" style="height: 50px;"><b>Click here to Generate PDF</b></button>
+</div>
+   
+  <script>
+
+
+
+    function sendEmail() {
+      fetch(`/send-email?eventName=${encodeURIComponent(eventName)}&eventOrganizer=${encodeURIComponent(eventOrganizer)}&eventEmail=${encodeURIComponent(eventEmail)}&eventPhone=${encodeURIComponent(eventPhone)}&bookingArray=${encodeURIComponent(JSON.stringify(bookingArray))}`, {
+    method: 'POST'
+  })
+        .then(response => {
+         
+          alert('Email sent successfully');
+          if (response.ok) {
+
+            alert('Email sent successfully');
+          } else {
+           
+            alert('Email not sent');
+          }
+        })
+        .catch(error => {
+          console.error('Error sending email:', error);
+          alert('meu');
+        });
+    }
+  </script>
+ 
+
+
+<script>
+    function makepdf() {
+        var element = document.getElementById('content');
+        html2pdf(element, {
+            margin: 0.5,
+            filename: 'myfile.pdf',
+            image: {
+                type: 'jpeg',
+                quality: 0.97
+            },
+            html2canvas: {
+                dpi: 400,
+                letterRendering: true
+            },
+            jsPDF: {
+                unit: 'in',
+                format: 'letter',
+                orientation: 'portrait'
+            }
+        });
+    }
+</script>

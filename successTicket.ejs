@@ -1,0 +1,72 @@
+<html>
+  <head>
+    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,400i,700,900&display=swap" rel="stylesheet">
+  </head>
+    <style>
+      .card {
+    text-align: center;
+    margin: 20px auto;
+  }
+
+  .card-content {
+    border-radius: 200px;
+    height: 200px;
+    width: 200px;
+    background: #F8FAF5;
+    margin: 0 auto;
+    padding: 20px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th, td {
+    padding: 10px;
+    
+    border-bottom: 1px solid #ddd;
+  }
+
+  th {
+    background-color: #F8FAF5;
+  }
+    </style>
+    <body>
+      <%- include('navbar') %>
+      <form action="/successTicket" method="post">
+        <input type="hidden" name="eventName" value="<%= eventName %>">
+         <input type="hidden" name="eventOrganizer" value="<%= eventOrganizer %>">
+         <input type="hidden" name="TicketPrice" value="200">
+          <input type="hidden" name="eventPhone" value="<%= eventPhone %>">
+           <input type="hidden" name="name" value="Zeba">
+      <div class="card">
+        <div class="card-content">
+          <table>
+            <tr>
+              <th colspan="2">Event Details</th>
+            </tr>
+            <tr>
+              <td>Event:</td>
+              <td><%= eventName %></td>
+            </tr>
+            <tr>
+              <td>Event By:</td>
+              <td><%= eventOrganizer %></td>
+            </tr>
+            <tr>
+              <td>Event Contact:</td>
+              <td><%= eventPhone %></td>
+            </tr>
+            <tr>
+              <td>Ticket Price:</td>
+              <td><%= amount %></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <button type="submit"> Pay for Ticket</button>
+      </form>
+    </body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>All Rooms</title>
+
+    <style>
+        body {
+          font-family: Arial, sans-serif;
+        }
+        .main-heading {
+          text-align: center;
+        }
+        .rooms-container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          border: 5px solid #e7edf1;
+          border-radius: 10px;
+          width: 1000px;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          margin: 0 auto;
+          padding: 20px;
+        }
+        body {
+  font-family: Arial, sans-serif;
+}
+
+.main-heading {
+  text-align: center;
+}
+
+.rooms-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 5px solid #e7edf1;
+  border-radius: 10px;
+  width: 800px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.room-item {
+  margin: 10px 0;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%; /* Set the width to 100% */
+}
+
+.room-item:nth-child(even) {
+  background-color: rgb(126, 212, 224);
+}
+
+.room-item:hover {
+  background-color: rgb(255, 255, 255);
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even){background-color: #f2f2f2}
+
+th {
+  background-color: #127da4;
+  color: white;
+}
+
+      </style>
+      
+
+</head>
+<body>
+    <%- include('navbar') %>
+    
+
+  <div style="display: flex; justify-content: center; align-items: center; margin: 20px; flex-direction: column; width: 100%" >
+    <button type="button" class="btn btn-primary" style="margin-left: 90px" onclick="location.href='/allRooms'">All Rooms</button>
+    <label><h2> Search For A Date : </h2>
+    <form action="/" method="POST">
+      <input style="border-radius: 5px; height: 50px;" type="text" name="search"  placeholder="Search for an event">
+      <button type="submit" class="btn btn-info" >Search</button>
+    </label>
+    </form>
+  
+    
+  </div>
+    
+    
+  <div class="rooms-container">
+    
+    <% var room = parseInt(50) %>
+    <% var page_no = Math.ceil(room / 10); %>
+    
+    <% for (let i = 1; i <= page_no; i++) { %>
+        <button type="button" class="btn btn-primary" onclick="location.href='/totalSales?page=<%= i %>&roomId=<%= rooms._id %>'"> <%= i %>
+        </button>
+    <% } %>
+    
+    <% if (room === 0) { %>
+        <p>No booked slots found for this room.</p>
+    <% } else { %>
+        <h3>Total Sales Record Of : <%= rooms.roomNumber %></h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Date</th>
+                    <th>Times</th>
+                    <th>Total Sales BDT</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% var totalSales = 0; %>
+                <% rooms.bookedSlots.forEach((booking, index) => { %>
+                    <tr class="room-item">
+                        <td><%= index + 1 %></td>
+                        <td><%= booking.date.join(', ') %></td>
+                        <td>
+                            <ul>
+                                <% booking.times.forEach((time) => { %>
+                                    <li><%= time %></li>
+                                <% }); %>
+                            </ul>
+                        </td>
+                        <% var total = booking.times.length * parseInt(rooms.fee); %>
+                        <% totalSales += total; %>
+                        <td><%= total %> BDT</td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+        <h3>Total Sales: <%= totalSales %> BDT</h3>
+    <% } %>
+</div>
+</body>
+
+</html>

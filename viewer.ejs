@@ -1,0 +1,53 @@
+<!-- views/viewer.ejs -->
+<!-- views/liveStream.ejs -->
+<!-- ... -->
+<script src="/socket.io/socket.io.js"></script>
+<!-- ... -->
+
+<!-- views/viewer.ejs -->
+<!-- ... -->
+<script src="/socket.io/socket.io.js"></script>
+<!-- ... -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Live Stream Viewer</title>
+</head>
+<body>
+  <h1>Live Stream Viewer</h1>
+  <div id="videoContainer">
+    <!-- Video element for showing the live stream -->
+    <video id="liveStream" autoplay controls></video>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+    let peer;
+
+    // Create the peer connection
+    const createPeerConnection = () => {
+      peer = new SimplePeer({ initiator: false, trickle: false });
+
+      peer.on('signal', (data) => {
+        socket.emit('viewer-signal', data);
+      });
+
+      peer.on('stream', (stream) => {
+        const videoElement = document.getElementById('liveStream');
+        videoElement.srcObject = stream;
+      });
+    };
+
+    // Receive the offer signal from the broadcaster
+    socket.on('offer-signal', (data) => {
+      createPeerConnection();
+      peer.signal(data);
+    });
+  </script>
+</body>
+</html>

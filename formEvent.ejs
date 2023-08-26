@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #f1f1f1;
+}
+
+.container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 40px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+input {
+  padding: 10px;
+  width: 100%;
+  font-size: 17px;
+  font-family: Raleway;
+  border: 1px solid #aaaaaa;
+  margin-bottom: 10px;
+}
+
+button {
+  background-color: #04AA6D;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 17px;
+  font-family: Raleway;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+</style>
+<body>
+
+<div class="container">
+  <form>
+    <label for="eventName">Event Name:</label>
+    <input type="text" id="eventName" name="eventName" placeholder="Enter the name of the event" required>
+
+    <label for="eventType">Type of Event:</label>
+    <input type="text" id="eventType" name="eventType" placeholder="Enter the type of event" required>
+
+    <label for="companyName">Company or Forum Name:</label>
+    <input type="text" id="companyName" name="companyName" placeholder="Enter the company or forum name" required>
+
+    <button type="submit">Create Event</button>
+  </form>
+</div>
+
+</body>
+</html>
+               

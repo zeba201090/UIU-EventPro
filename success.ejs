@@ -1,0 +1,104 @@
+<html>
+  <head>
+    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,400i,700,900&display=swap" rel="stylesheet">
+  </head>
+    <style>
+      body {
+        
+      }
+        h1 {
+          color: #88B04B;
+          font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
+          font-weight: 900;
+          font-size: 40px;
+          margin-bottom: 10px;
+        }
+        p {
+          color: #404F5E;
+          font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
+          font-size:20px;
+          margin: 0;
+        }
+      i {
+        color: #9ABC66;
+        font-size: 100px;
+        line-height: 200px;
+        margin-left:-15px;
+      }
+      .card {
+        background: white;
+        padding: 60px;
+        border-radius: 4px;
+        box-shadow: 0 2px 3px #C8D0D8;
+        display: inline-block;
+        margin: 0 auto;
+      }
+    </style>
+    <body>
+      <%- include('navbar') %>
+      <div class="card">
+      <div style="border-radius:200px; height:200px; margin-left: 150px; width:200px; background: #F8FAF5; margin:0 auto;">
+        <i style="margin-left: 60px;" class="checkmark">✓</i>
+      </div style="margin-left: 150px;">
+        <h1>Booking Successful</h1> 
+        <p>Your Event Has Been Confirmed;<br/> For further information,contact : 01788889111</p>
+      </div>
+      <div style="text-align: center; background-color: #8bf0f000; width: 300px; height: fit-content; margin-left: 40px;">
+        <button id="sendEmail" onclick="sendEmail()" >Send Confirmation Email</button>
+      
+        <button id="pdfButton" onclick="makepdf()" style="height: 50px;"><b>Click here to Generate PDF</b></button>
+      </div>
+         
+        <script>
+      
+      
+      
+          function sendEmail() {
+            fetch(`/send-email?eventName=${encodeURIComponent(eventName)}&eventOrganizer=${encodeURIComponent(eventOrganizer)}&eventEmail=${encodeURIComponent(eventEmail)}&eventPhone=${encodeURIComponent(eventPhone)}&bookingArray=${encodeURIComponent(JSON.stringify(bookingArray))}`, {
+          method: 'POST'
+        })
+              .then(response => {
+               
+                alert('Email sent successfully');
+                if (response.ok) {
+      
+                  alert('Email sent successfully');
+                } else {
+                 
+                  alert('Email not sent');
+                }
+              })
+              .catch(error => {
+                console.error('Error sending email:', error);
+                alert('meu');
+              });
+          }
+        </script>
+       
+      
+      
+      <script>
+          function makepdf() {
+              var element = document.getElementById('content');
+              html2pdf(element, {
+                  margin: 0.5,
+                  filename: 'myfile.pdf',
+                  image: {
+                      type: 'jpeg',
+                      quality: 0.97
+                  },
+                  html2canvas: {
+                      dpi: 400,
+                      letterRendering: true
+                  },
+                  jsPDF: {
+                      unit: 'in',
+                      format: 'letter',
+                      orientation: 'portrait'
+                  }
+              });
+          }
+      </script>
+      
+    </body>
+</html>

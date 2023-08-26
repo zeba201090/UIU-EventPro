@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  
+</body>
+</html>
+<head>   <base href="/">  
+  <link rel="stylesheet" type="text/css" href="/select.css">
+ 
+ <style>
+    /* Internal CSS Styles */
+    
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: white;
+    }
+    #timeSlots{
+      font-family: Arial, sans-serif;
+      font-weight: 100;
+      padding: 30px;
+      background-color: rgba(87, 202, 234, 0.704);
+    }
+    #form-container{
+      max-width: 500px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: white;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    label {
+      font-weight: bold;
+	    display: block;
+      margin-top: 10px;
+    }
+    input[type="text"],
+    input[type="number"],
+    select {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+    input[type="checkbox"] {
+      margin-right: 5px;
+    }
+    select#roomType,
+    select#timeSlot {
+      width: 100%;
+    }
+    input[type="submit"] {
+      background-color: #ffffff;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    input[type="submit"]:hover {
+      background-color: #ffffff;
+    }
+  </style>
+
+</head>
+<!-- <button id="btn">ADD A ROOM</button>
+<button onclick="window.location.href='/book';" id="btnbook">BOOK ROOM</button> -->
+
+<div id="form-container" >
+  <h1>Add Room</h1>
+  <form  action="/rooms" method="POST">
+    <label for="roomName">Room Name:</label>
+    <input type="text" id="roomName" name="roomName" required /><br /><br />
+
+    <label for="roomNumber">Room Number:</label>
+    <input
+      type="text"
+      id="roomNumber"
+      name="roomNumber"
+      required
+    /><br /><br />
+
+    <label for="roomType">Room Type:</label>
+    <select id="roomType" name="roomType" required>
+      <option value="auditorium">Auditorium</option>
+      <option value="conference room">Conference Room</option>
+      <option value="lab">Lab</option>
+      <option value= "classroom" >Classroom</option>
+      <option value="hallroom">Hallroom</option></select
+    ><br /><br />
+
+    <label for="capacity">Capacity:</label>
+    <input type="number" id="capacity"  name="capacity" required/><br /><br />
+
+    <label for="facilities">Facilities:</label>
+    <input type="text" id="facilities" name="facilities" /><br /><br />
+   
+    <label for="availableDays">Available Days:</label>
+     
+    <div>
+        Saturday: <input type="checkbox" id="day" name="checkbox" value="Saturday">
+        <br>
+        Sunday: <input type="checkbox" name="checkbox" v id="day" value="Sunday">
+        <br>
+        
+        Monday: <input type="checkbox" name="checkbox"  id="day" value="Monday"> 
+        <br>
+        Tuesday: <input type="checkbox" id="day" name="checkbox"  value="Tuesday">
+        <br>
+        Wednesday: <input type="checkbox" id="day" name="checkbox" value="Wednesday"> 
+        <br>
+        Thursday: <input type="checkbox" id="day"  name="checkbox" value="Thursday">
+        <br>
+        Friday: <input type="checkbox" id="day" name="checkbox"  value="Friday"> 
+        <br>
+        
+        </div>
+        
+        
+
+        <input type="hidden" name="myArray" id="myArrayInput">
+        <select value = timeSlots id="timeSlot" onchange="generateTimeSlots()" name="timeSlot">
+          
+        
+          <option value="">Select a Time Slot</option>
+          <option value="8:30 AM - 5:00 PM">8:30 AM - 5:00 PM</option>
+          <option value="8:30 AM - 8:00 PM">8:30 AM - 8:00 PM</option>
+          <option value="10:00 AM - 5:00 PM">10:00 AM - 5:00 PM</option>
+          <option value="10:00 PM - 8:00 PM">10:00 PM - 8:00 PM</option>
+          <option value="8:30 AM - 2:00 PM">8:30 PM - 2:00 PM</option>
+        </select>
+        
+        <p  id="timeSlots" name="timeSlot"> Room's Available Slots: </p>   
+        <br>
+
+        <label for="booking_fee">Booking Fee:</label>
+    <input type="number" id="booking_fee" name="booking_fee" /><br /><br />
+        
+
+    
+
+
+    <button type="submit" value="Add Room">Add Room</button>
+  </form>
+</div>
+<br>
+
+<script>
+  function generateTimeSlots() {
+    var timeSlotElement = document.getElementById('timeSlot');
+    const selectedOption = timeSlotElement.options[timeSlotElement.selectedIndex].value;
+    const st = parseInt(selectedOption.substring(0, 2));
+    const et = parseInt(selectedOption.substring(10, 13));
+    const startTime= st;
+   
+   
+
+    const endTime = et+12;
+    const interval = 1; 
+
+
+    console.log(startTime);
+    console.log(et);
+
+
+    let timeSlots = [];
+    let currentHour = startTime;
+
+
+   
+    while (currentHour<endTime) {
+      timeSlot = `${currentHour}:00  - ${(currentHour + interval)}:00 `;
+      timeSlots.push(timeSlot);
+      currentHour += interval;
+    } 
+      
+
+    timeSlotElement = document.getElementById('timeSlots');
+    console.log(timeSlots);
+    document.getElementById("timeSlots").innerHTML = timeSlots.join('<br />');
+    myArrayInput.value = timeSlots.join(',');
+  }
+</script>
+
+
+
+ <script>
+      const btn = document.getElementById("btn");
+
+      btn.addEventListener("click", () => {
+        const form = document.getElementById("form");
+
+        if (form.style.display === "none") {
+          // ??? this SHOWS the form
+          form.style.display = "block";
+        } else {
+          // ??? this HIDES the form
+          form.style.display = "none";
+        }
+      });
+
+
+     
+    </script>

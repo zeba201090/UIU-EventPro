@@ -1,0 +1,20 @@
+
+<style>
+    table {
+      border:1px solid black;
+      border-spacing: 10px;
+      width: 200px;
+      border-radius: 2px;
+    }
+    </style>
+<% events.forEach((event, index) => { %>
+    
+        <table>
+            <tbody>
+                <td href="" ><%= event.eventName %></td>
+                  <td>By <%= event.eventOrganizer %></td>
+                  <td><%= event.eventDate %></td>
+            </tbody>
+
+        </table>
+<% }); %>

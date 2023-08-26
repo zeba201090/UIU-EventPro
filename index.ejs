@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>EventBooking</title>
+  <% if (typeof name !=='undefined' && name !==null) { %>
+    <h2 style="float: right">WELCOME, <%= name %>
+    </h2>
+    <% } %>
+      <%- include('navbar') %>
+</head>
+
+<style>
+  #box {
+
+    width: 70%;
+    margin-top: 20px;
+    background-color: rgb(214, 227, 234);
+    padding: 10px;
+    border-radius: 5px;
+  }
+
+  #eventbox {
+
+    float: right;
+    width: 300px;
+    height: 550px;
+    font-weight: bold;
+
+    margin-right: 10px;
+    padding: 40px;
+    border-radius: 2px;
+
+    background: linear-gradient(90deg, rgb(183, 202, 201) 0%, rgb(132, 231, 238) 56%, rgb(21, 181, 212) 100%);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  }
+
+  #image {
+    width: 1000px;
+    height: 500px;
+
+  }
+
+  #container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  h5 {
+    color: white;
+  }
+</style>
+
+<body>
+  <div id="container">
+
+    <div id="box">
+      <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active"
+            aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1"
+            aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2"
+            aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+          <div class="carousel-item active" data-bs-interval="10000">
+            <img id="image" src="image1.jpg" class="d-block w-100" alt="..." />
+            <div class="carousel-caption d-none d-md-block">
+              <h5>UIU Multipurpose Room</h5>
+              <p>
+
+              </p>
+            </div>
+          </div>
+          <div class="carousel-item" data-bs-interval="2000">
+            <img id="image" src="image3.jpg" class="d-block w-100" alt="..." />
+            <div class="carousel-caption d-none d-md-block">
+              <h5>Second slide label</h5>
+              <p>
+                Digital Room.
+              </p>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <img id="image" src="image2.jpg" class="d-block w-100" alt="..." />
+            <div class="carousel-caption d-none d-md-block">
+              <h5>Classrooms and Labs</h5>
+              <p>
+                Some representative placeholder content for the third slide.
+              </p>
+            </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    </div>
+    <button type="button" class="btn btn-secondary" style="margin-left: 10px; background-color: crimson;"
+      onclick="location.href='/book_Event'">
+      Book an Event
+    </button>
+    <button type="button" class="btn btn-primary" style="margin-left: 10px" onclick="location.href='/add_room_page'">
+      Add A New Room
+    </button>
+    <button type="button" style="background-color: rgb(228, 96, 20);" class="btn btn-light" style="margin-left: 10px"
+      onclick="location.href='/live'">
+      UIU Past Events
+    </button>
+
+    <div id="eventbox">
+
+      <div>
+        <h2 style="text-decoration: none;"> Book your events with UIUEventPro!
+
+        </h2>
+      </div>
+
+      <br>
+      <br>
+      <h3>Latest Event</h3>
+      <script>
+        fetch('/latestEvent');
+      </script>
+      <%- include('latestEvent') %>
+        <br>
+        <button type="button" class="btn btn-primary" style="margin-left: 10px;" onclick="location.href='/userEvents'">
+          View All Events
+        </button>
+
+
+
+    </div>
+  </div>
+
+</body>
+
+</html>
+
+<script>
+
+
+
+  let slideIndex = 0;
+  showSlides();
+
+  function showSlides() {
+    let i;
+    const slides = document.getElementsByClassName("slide");
+
+    for (i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";
+    }
+
+    slideIndex++;
+
+    if (slideIndex > slides.length) {
+      slideIndex = 1;
+    }
+
+    slides[slideIndex - 1].style.display = "block";
+
+    setTimeout(showSlides, 3000); // Change slide every 3 seconds
+  }
+</script>

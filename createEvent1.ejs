@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Event Booking Form</title>
+  <style>
+    /* Internal CSS Styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: rgb(255, 255, 255);
+    }
+    #form-container {
+      max-width: 500px;
+      width: 650px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: white;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 10px;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    select {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px  #ccc;
+      border-radius: 3px;
+    }
+    select#eventType {
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div id="form-container">
+    <h1>Event Booking Form</h1>
+    <form action="/submit-dates" method="post">
+      <label for="eventName">Event Name:</label>
+      <input type="text" id="eventName" name="eventName" required><br>
+
+      <label for="eventOrganizer">Event Organizer:</label>
+      <input type="text" id="eventOrganizer" name="eventOrganizer" required><br>
+
+      <label for="eventEmail">Event Email:</label>
+      <input type="email" id="eventEmail" name="eventEmail" required><br>
+      
+      
+      
+      <label for="eventPhone">Event Phone:</label>
+      <input type="tel" id="eventPhone" name="eventPhone" required><br>
+ 
+      <label for="eventType">Event Type:</label>
+      <select id="eventType" name="eventType" required>
+        <option value="">Select Event Type</option>
+        <option value="Conference">Conference</option>
+        <option value="Seminar">Seminar</option>
+        <option value="Workshop">Workshop</option>
+        <option value="Exhibition">Exhibition</option>
+        <!-- Add more event types as needed -->
+      </select><br>
+      <%- include('date') %>
+
+      <!-- Include date-related content here -->
+    </form>
+  </div>
+</body>
+</html>
