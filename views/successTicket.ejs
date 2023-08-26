@@ -34,6 +34,12 @@
   }
     </style>
     <body>
+      <form action="/successTicket" method="post">
+        <input type="hidden" name="eventName" value="<%= event.eventName %>">
+         <input type="hidden" name="eventOrganizer" value="<%= event.eventOrganizer %>">
+         <input type="hidden" name="TicketPrice" value="200">
+          <input type="hidden" name="eventPhone" value="<%= event.eventPhone %>">
+           <input type="hidden" name="name" value="Zeba">
       <div class="card">
         <div class="card-content">
           <table>
@@ -59,6 +65,7 @@
           </table>
         </div>
       </div>
-      
+      <button type="submit"> Pay for Ticket</button>
+      </form>
     </body>
 </html>
